@@ -51,48 +51,6 @@ function App() {
         }
     };
 
-    const compressImage = async (file) => {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = new Image();
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 1024;
-                    const MAX_HEIGHT = 1024;
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > height) {
-                        if (width > MAX_WIDTH) {
-                            height *= MAX_WIDTH / width;
-                            width = MAX_WIDTH;
-                        }
-                    } else {
-                        if (height > MAX_HEIGHT) {
-                            width *= MAX_HEIGHT / height;
-                            height = MAX_HEIGHT;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    canvas.toBlob((blob) => {
-                        resolve(new File([blob], file.name, {
-                            type: 'image/jpeg',
-                            lastModified: Date.now()
-                        }));
-                    }, 'image/jpeg', 0.7);  // 품질 70%로 압축
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-    };
-
     const handleUpload = async () => {
         if (!image) {
             alert("이미지를 업로드하세요!");
@@ -101,21 +59,15 @@ function App() {
 
         setLoading(true);
         const formData = new FormData();
-        
+        formData.append("image", image);
+
+        const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+
         try {
-            // 이미지 압축
-            const compressedImage = await compressImage(image);
-            formData.append("image", compressedImage);
-
-            const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
-
             const response = await axios.post(
                 `${API_URL}/analyze`,
                 formData,
-                { 
-                    headers: { "Content-Type": "multipart/form-data" },
-                    timeout: 30000  // 타임아웃 30초로 설정
-                }
+                { headers: { "Content-Type": "multipart/form-data" } }
             );
             setResult(response.data);
         } catch (error) {
@@ -123,7 +75,7 @@ function App() {
             if (error.response?.data?.errorType === "NO_FACE_DETECTED") {
                 alert("얼굴을 찾을 수 없습니다. 정면을 바라보는 다른 사진으로 시도해주세요.");
             } else {
-                alert("이미지 분석 중 오류가 발생했습니다. 다시 시도해주세요.");
+                alert("이미지 분석 중 오류가 발생했습니다.");
             }
             setImage(null);
             setResult({
