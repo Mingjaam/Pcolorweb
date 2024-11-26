@@ -67,9 +67,7 @@ function App() {
                 formData,
                 { 
                     headers: { "Content-Type": "multipart/form-data" },
-                    timeout: 30000,  // 30초 타임아웃 설정
-                    maxContentLength: 10 * 1024 * 1024, // 10MB 제한
-                    maxBodyLength: 10 * 1024 * 1024
+                    timeout: 30000  // 30초 타임아웃 설정만 유지
                 }
             );
             setResult(response.data);
