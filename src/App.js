@@ -58,32 +58,54 @@ function App() {
         const formData = new FormData();
         
         try {
-            // 이미지 압축 추가
-            const compressedFile = await compressImage(image);
-            formData.append("image", compressedFile);
+            console.log('Upload started:', {
+                fileName: image.name,
+                fileSize: image.size,
+                fileType: image.type
+            });
 
+            formData.append("image", image);
             const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
             const response = await axios.post(
                 `${API_URL}/analyze`,
                 formData,
                 { 
-                    headers: { "Content-Type": "multipart/form-data" },
-                    timeout: 30000,  // 30초 타임아웃 설정
-                    maxContentLength: 10 * 1024 * 1024, // 10MB 제한
-                    maxBodyLength: 10 * 1024 * 1024
+                    headers: { 
+                        "Content-Type": "multipart/form-data",
+                        "Accept": "application/json"
+                    },
+                    timeout: 30000,
+                    maxContentLength: 10 * 1024 * 1024,
+                    maxBodyLength: 10 * 1024 * 1024,
+                    onUploadProgress: (progressEvent) => {
+                        console.log('Upload progress:', 
+                            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                        );
+                    }
                 }
             );
+
+            console.log('Upload successful:', response.data);
             setResult(response.data);
         } catch (error) {
-            console.error("Upload error details:", error);
+            console.error('Upload error:', {
+                message: error.message,
+                response: error.response?.data,
+                status: error.response?.status
+            });
+
+            let errorMessage = "이미지 분석 중 오류가 발생했습니다.";
+            
             if (error.code === 'ECONNABORTED') {
-                alert("네트워크 상태가 불안정합니다. 다시 시도해주세요.");
+                errorMessage = "서버 응답 시간이 초과되었습니다. 다시 시도해주세요.";
             } else if (error.response?.data?.errorType === "NO_FACE_DETECTED") {
-                alert("얼굴을 찾을 수 없습니다. 정면을 바라보는 다른 사진으로 시도해주세요.");
-            } else {
-                alert("이미지 분석 중 오류가 발생했습니다. 다시 시도해주세요.");
+                errorMessage = "얼굴을 찾을 수 없습니다. 다른 사진으로 시도해주세요.";
+            } else if (!navigator.onLine) {
+                errorMessage = "인터넷 연결을 확인해주세요.";
             }
+            
+            alert(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -223,6 +245,8 @@ function App() {
                         type="file"
                         onChange={handleFileChange}
                         accept="image/*"
+                        capture="environment"
+                        className="file-input"
                     />
                     {image && (
                         <img src={URL.createObjectURL(image)} alt="Preview" />
