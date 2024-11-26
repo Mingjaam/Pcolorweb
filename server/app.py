@@ -4,9 +4,27 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from PIL import Image
 import io
+from skimage import color
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+def lab_to_rgb(L, a, b):
+    """Lab 색공간을 RGB로 변환"""
+    # Lab 값을 3차원 배열로 변환
+    lab = np.array([[[L, a, b]]])
+    
+    # Lab에서 RGB로 변환
+    rgb = color.lab2rgb(lab)
+    
+    # RGB 값을 0-255 범위로 변환
+    rgb = np.clip(rgb[0][0] * 255, 0, 255).astype(int)
+    
+    return {
+        'r': int(rgb[0]),
+        'g': int(rgb[1]),
+        'b': int(rgb[2])
+    }
 
 def extract_skin_color(image_path):
     """피부색 추출 및 세분화된 퍼스널 컬러 분석"""
@@ -83,6 +101,9 @@ def extract_skin_color(image_path):
     L = weighted_mean(t_skin[:,:,0][t_mask > 0], u_skin[:,:,0][u_mask > 0])
     a = weighted_mean(t_skin[:,:,1][t_mask > 0], u_skin[:,:,1][u_mask > 0])
     b = weighted_mean(t_skin[:,:,2][t_mask > 0], u_skin[:,:,2][u_mask > 0])
+
+    # RGB 변환 추가
+    rgb_values = lab_to_rgb(L, a, b)
 
     # 피부톤 분석 기준값 수정
     brightness_threshold = {
@@ -351,7 +372,8 @@ def extract_skin_color(image_path):
             "brightness_level": brightness_characteristic,
             "warmth_level": warmth_characteristic,
             "contrast_level": contrast_characteristic
-        }
+        },
+        "rgb_values": rgb_values,  # RGB 값 추가
     }
 
 @app.route('/analyze', methods=['POST'])

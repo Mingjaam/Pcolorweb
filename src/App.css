@@ -145,6 +145,17 @@ body {
     background-color: #FF4A4A;
 }
 
+/* 결과 보기 버튼 (초록색 그라데이션) */
+.upload-button.result {
+    background: linear-gradient(45deg, #4CAF50, #66BB6A);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.upload-button.result:hover {
+    background: linear-gradient(45deg, #43A047, #5CB860);
+    transform: translateY(-2px);
+}
+
 /* 결과 타이틀 */
 .result-title {
     text-align: center;
@@ -165,7 +176,7 @@ body {
 /* 그래프 섹션 */
 .chart-section {
     width: 100%;
-    height: 300px;
+    height: 250px;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -248,7 +259,7 @@ body {
     }
 
     .chart-section {
-        height: 400px;
+        height: 300px;
     }
 
     .color-box div {
@@ -278,4 +289,167 @@ body {
     .ad-container {
         min-height: 60px;
     }
+}
+
+/* 로딩 스피너 스타일 */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 로딩 상태의 버튼 스타일 수정 */
+.upload-button.loading {
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* 다시 검사하기 버튼 (파란색 그라데이션) */
+.upload-button.reset {
+    margin: 30px auto;  /* 상하 여백 30px, 좌우 auto로 중앙 정렬 */
+    display: block;     /* block 요소로 변경하여 margin auto 적용 가능하게 함 */
+    background: linear-gradient(45deg, #2196F3, #42A5F5);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.upload-button.reset:hover {
+    background: linear-gradient(45deg, #1E88E5, #3B9EE5);
+    transform: translateY(-2px);
+}
+
+/* 결과 보기 버튼 스타일 */
+.upload-button.view-result {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    transition: background-color 0.3s ease;
+}
+
+.upload-button.view-result:hover {
+    background-color: #45a049;
+}
+
+/* 정보 섹션 스타일 */
+.info-section {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.info-text {
+    margin: 12px 0;
+    color: #777;
+}
+
+.info-list {
+    margin: 8px 0;
+    padding-left: 24px;
+    color: #777;
+}
+
+.info-list li {
+    margin: 6px 0;
+}
+
+.info-text.important {
+    color: #555;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .info-section {
+        padding: 16px;
+        font-size: 0.85rem;
+    }
+}
+
+/* 키워드 분석 결과 섹션 */
+.keywords-section {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+}
+
+.keywords-container {
+    flex: 7;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyword {
+    background: linear-gradient(45deg, #FF6B6B, #FF8787);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* 피부색 표시 영역 수정 */
+.skin-color-box {
+    flex: 3;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.skin-color-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.skin-color-label {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.skin-color-circle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+}
+
+.skin-color-label {
+    font-size: 0.8rem;
+    color: #666;
+    text-align: center;
 }
