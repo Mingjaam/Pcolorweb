@@ -66,8 +66,7 @@ function App() {
                 `${API_URL}/analyze`,
                 formData,
                 { 
-                    headers: { "Content-Type": "multipart/form-data" },
-                    timeout: 30000  // 30초 타임아웃 설정만 유지
+                    headers: { "Content-Type": "multipart/form-data" }
                 }
             );
             setResult(response.data);
