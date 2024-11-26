@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from PIL import Image, ExifTags
+from PIL import Image
 import io
 import tempfile
 import os
@@ -360,32 +360,16 @@ def extract_skin_color(image_path):
         }
     }
 
-def fix_image_rotation(image):
-    try:
-        for orientation in ExifTags.TAGS.keys():
-            if ExifTags.TAGS[orientation] == 'Orientation':
-                break
-        exif = dict(image._getexif().items())
-
-        if exif[orientation] == 3:
-            image = image.rotate(180, expand=True)
-        elif exif[orientation] == 6:
-            image = image.rotate(270, expand=True)
-        elif exif[orientation] == 8:
-            image = image.rotate(90, expand=True)
-    except (AttributeError, KeyError, IndexError):
-        # 이미지에 Exif 데이터가 없는 경우
-        pass
-    return image
-
 @app.route('/analyze', methods=['POST'])
 def analyze():
+    if 'image' not in request.files:
+        return jsonify({"error": "이미지가 업로드되지 않았습니다."}), 400
+
+    image_file = request.files['image']
+    
     try:
-        image = Image.open(request.files['image'])
-        image = fix_image_rotation(image)  # 이미지 방향 보정
-        
         # 이미지 크기 체크 및 리사이징
-        image = Image.open(image)
+        image = Image.open(image_file)
         
         # 최대 크기 제한
         max_size = (1024, 1024)  # 예: 1024x1024
