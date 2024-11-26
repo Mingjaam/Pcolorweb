@@ -41,6 +41,7 @@ function App() {
             contrast_level: ''
         }
     });
+    const [isUploading, setIsUploading] = useState(false);
 
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
@@ -152,16 +153,18 @@ function App() {
     };
 
     const handleUpload = async () => {
-        if (!image) {
-            alert("이미지를 업로드하세요!");
-            return;
-        }
-
+        if (!image || isUploading) return;
+        
+        setIsUploading(true);
         setLoading(true);
+
+        // 상태 업데이트를 위한 약간의 지연
+        await new Promise(resolve => setTimeout(resolve, 0));
+
         const formData = new FormData();
         
         try {
-            // 이미지 압축
+            // 이미지 압축 작업을 Web Worker로 이동
             const compressedImage = await compressImage(image);
             formData.append("image", compressedImage);
 
@@ -172,33 +175,17 @@ function App() {
                 formData,
                 { 
                     headers: { "Content-Type": "multipart/form-data" },
-                    timeout: 30000  // 타임아웃 30초로 설정
+                    timeout: 30000,
                 }
             );
+            
             setResult(response.data);
         } catch (error) {
-            console.error("Error uploading image:", error);
-            if (error.response?.data?.errorType === "NO_FACE_DETECTED") {
-                alert("얼굴을 찾을 수 없습니다. 정면을 바라보는 다른 사진으로 시도해주세요.");
-            } else {
-                alert("이미지 분석 중 오류가 발생했습니다. 다시 시도해주세요.");
-            }
-            setImage(null);
-            setResult({
-                season: '',
-                characteristics: [],
-                skin_tone: { brightness: 0, warmth: 0, contrast: 0 },
-                best_colors: [],
-                worst_colors: [],
-                lab_values: { L: 0, a: 0, b: 0 },
-                tone_analysis: {
-                    brightness_level: '',
-                    warmth_level: '',
-                    contrast_level: ''
-                }
-            });
+            console.error("Upload error:", error);
+            alert("이미지 분석 중 오류가 발생했습니다.");
         } finally {
             setLoading(false);
+            setIsUploading(false);
         }
     };
 
