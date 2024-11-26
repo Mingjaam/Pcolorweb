@@ -30,7 +30,6 @@ __pycache__/
 .Python
 venv/
 env/
-.env
 
 # IDE
 .vscode/

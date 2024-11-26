@@ -90,14 +90,31 @@ function App() {
         formData.append("image", image);
 
         try {
-            const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
-            addDebugLog('info', 'API 요청 시작', { url: `${API_URL}/analyze` });
+            const API_URL = process.env.REACT_APP_API_URL;  //  || "http://127.0.0.1:5000";
+            addDebugLog('info', 'API 요청 시작', { 
+                url: `${API_URL}/analyze`,
+                imageSize: `${(image.size / 1024 / 1024).toFixed(2)}MB`
+            });
 
             const response = await axios.post(
                 `${API_URL}/analyze`,
                 formData,
                 { 
-                    headers: { "Content-Type": "multipart/form-data" }
+                    headers: { 
+                        "Content-Type": "multipart/form-data",
+                        "Accept": "application/json"
+                    },
+                    timeout: 60000, // 타임아웃 60초로 증가
+                    maxContentLength: Infinity, // 컨텐츠 길이 제한 해제
+                    maxBodyLength: Infinity, // 요청 본문 길이 제한 해제
+                    onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        addDebugLog('info', '업로드 진행률', { 
+                            progress: `${percentCompleted}%`,
+                            loaded: `${(progressEvent.loaded / 1024 / 1024).toFixed(2)}MB`,
+                            total: `${(progressEvent.total / 1024 / 1024).toFixed(2)}MB`
+                        });
+                    }
                 }
             );
             
@@ -108,16 +125,27 @@ function App() {
             setResult(response.data);
         } catch (error) {
             console.error("Upload error details:", error);
+            
+            // 더 자세한 에러 정보 로깅
             addDebugLog('error', '분석 중 오류 발생', {
                 errorMessage: error.message,
+                errorType: error.name,
                 errorResponse: error.response?.data,
-                errorType: error.response?.data?.errorType
+                errorStatus: error.response?.status,
+                errorStatusText: error.response?.statusText,
+                errorConfig: {
+                    url: error.config?.url,
+                    method: error.config?.method,
+                    headers: error.config?.headers
+                }
             });
 
             if (error.code === 'ECONNABORTED') {
                 alert("네트워크 상태가 불안정합니다. 다시 시도해주세요.");
             } else if (error.response?.data?.errorType === "NO_FACE_DETECTED") {
                 alert("얼굴을 찾을 수 없습니다. 정면을 바라보는 다른 사진으로 시도해주세요.");
+            } else if (error.message === "Network Error") {
+                alert("네트워크 연결을 확인해주세요. 와이파이나 모바일 데이터가 활성화되어 있는지 확인해주세요.");
             } else {
                 alert("이미지 분석 중 오류가 발생했습니다. 다시 시도해주세요.");
             }
