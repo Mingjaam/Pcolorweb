@@ -65,7 +65,7 @@ function App() {
             });
 
             formData.append("image", image);
-            const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+            const API_URL = process.env.REACT_APP_API_URL; //|| "http://127.0.0.1:5000";
 
             const response = await axios.post(
                 `${API_URL}/analyze`,
@@ -245,8 +245,6 @@ function App() {
                         type="file"
                         onChange={handleFileChange}
                         accept="image/*"
-                        capture="environment"
-                        className="file-input"
                     />
                     {image && (
                         <img src={URL.createObjectURL(image)} alt="Preview" />
