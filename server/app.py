@@ -402,6 +402,23 @@ def extract_skin_color(image_path):
                 "brightness_level": brightness_characteristic,
                 "warmth_level": warmth_characteristic,
                 "contrast_level": contrast_characteristic
+            },
+            "debug_info": {
+                "thresholds": {
+                    "brightness": brightness_threshold,
+                    "warmth": warmth_threshold,
+                    "contrast": contrast_threshold
+                },
+                "calculations": {
+                    "brightness_calc": f"{brightness:.2f} > {brightness_threshold['bright']}",
+                    "warmth_calc": f"{warmth:.2f} > {warmth_threshold['neutral']}",
+                    "contrast_calc": f"{contrast:.2f} > {contrast_threshold['medium_high']}"
+                },
+                "raw_values": {
+                    "L": f"{L:.2f}",
+                    "a": f"{a:.2f}",
+                    "b": f"{b:.2f}"
+                }
             }
         }
 

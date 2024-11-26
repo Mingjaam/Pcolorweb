@@ -41,13 +41,39 @@ function App() {
             contrast_level: ''
         }
     });
+    const [debugLogs, setDebugLogs] = useState([]);
+
+    const addDebugLog = (type, message, details = null) => {
+        const timestamp = new Date().toLocaleTimeString();
+        setDebugLogs(prev => [...prev, {
+            timestamp,
+            type,
+            message,
+            details
+        }]);
+    };
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            setImage(file);
-        } else {
-            alert('이미지 파일만 업로드 가능합니다.');
+        try {
+            if (file && file.type.startsWith('image/')) {
+                addDebugLog('info', '이미지 선택됨', {
+                    fileName: file.name,
+                    fileSize: `${(file.size / 1024 / 1024).toFixed(2)}MB`,
+                    fileType: file.type
+                });
+                setImage(file);
+            } else {
+                addDebugLog('error', '잘못된 파일 형식', {
+                    fileName: file?.name,
+                    fileType: file?.type
+                });
+                alert('이미지 파일만 업로드 가능합니다.');
+            }
+        } catch (error) {
+            addDebugLog('error', '파일 처리 중 오류 발생', {
+                error: error.message
+            });
         }
     };
 
@@ -55,12 +81,17 @@ function App() {
         if (!image || loading) return;
         
         setLoading(true);
-        const formData = new FormData();
-        
-        try {
-            formData.append("image", image);
+        addDebugLog('info', '분석 시작', {
+            fileName: image.name,
+            fileSize: `${(image.size / 1024 / 1024).toFixed(2)}MB`
+        });
 
+        const formData = new FormData();
+        formData.append("image", image);
+
+        try {
             const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+            addDebugLog('info', 'API 요청 시작', { url: `${API_URL}/analyze` });
 
             const response = await axios.post(
                 `${API_URL}/analyze`,
@@ -69,9 +100,20 @@ function App() {
                     headers: { "Content-Type": "multipart/form-data" }
                 }
             );
+            
+            addDebugLog('success', '분석 완료', {
+                season: response.data.season,
+                skinTone: response.data.skin_tone
+            });
             setResult(response.data);
         } catch (error) {
             console.error("Upload error details:", error);
+            addDebugLog('error', '분석 중 오류 발생', {
+                errorMessage: error.message,
+                errorResponse: error.response?.data,
+                errorType: error.response?.data?.errorType
+            });
+
             if (error.code === 'ECONNABORTED') {
                 alert("네트워크 상태가 불안정합니다. 다시 시도해주세요.");
             } else if (error.response?.data?.errorType === "NO_FACE_DETECTED") {
@@ -165,64 +207,158 @@ function App() {
         </div>
     );
 
-    return (
-        <div className="container">
-            <h1>퍼스널 컬러 분석</h1>
-            
-            <div className="upload-section">
-                <div className={`upload-box ${image ? 'has-image' : ''}`}>
-                    <input
-                        type="file"
-                        onChange={handleFileChange}
-                        accept="image/*"
-                    />
-                    {image && (
-                        <img src={URL.createObjectURL(image)} alt="Preview" />
+    const DebugLogs = () => (
+        <div className="debug-logs" style={{
+            backgroundColor: '#1e1e1e',
+            color: '#fff',
+            padding: '15px',
+            borderRadius: '8px',
+            marginTop: '20px',
+            fontFamily: 'monospace',
+            fontSize: '14px',
+            maxHeight: '300px',
+            overflowY: 'auto'
+        }}>
+            <h3 style={{ color: '#fff', marginBottom: '10px' }}>디버그 로그</h3>
+            {debugLogs.map((log, index) => (
+                <div key={index} style={{
+                    marginBottom: '8px',
+                    padding: '8px',
+                    backgroundColor: log.type === 'error' ? '#ff000022' : 
+                                   log.type === 'success' ? '#00ff0022' : 
+                                   '#ffffff22',
+                    borderRadius: '4px'
+                }}>
+                    <span style={{ color: '#888' }}>[{log.timestamp}] </span>
+                    <span style={{ 
+                        color: log.type === 'error' ? '#ff6b6b' : 
+                               log.type === 'success' ? '#69db7c' : 
+                               '#4dabf7'
+                    }}>
+                        {log.type.toUpperCase()}:
+                    </span>
+                    <span> {log.message}</span>
+                    {log.details && (
+                        <pre style={{ 
+                            marginTop: '5px', 
+                            fontSize: '12px',
+                            color: '#888' 
+                        }}>
+                            {JSON.stringify(log.details, null, 2)}
+                        </pre>
                     )}
                 </div>
-                <button 
-                    className={`upload-button ${loading ? 'loading' : ''}`}
-                    onClick={handleUpload} 
-                    disabled={!image || loading}
-                >
-                    {loading ? (
-                        <span>분석 중...</span>
-                    ) : (
-                        <span>분석하기</span>
-                    )}
-                </button>
+            ))}
+        </div>
+    );
+
+    return (
+        <div className="App">
+            <div className="container">
+                <h1>퍼스널 컬러 분석</h1>
+                
+                <div className="upload-section">
+                    <div className={`upload-box ${image ? 'has-image' : ''}`}>
+                        <input
+                            type="file"
+                            onChange={handleFileChange}
+                            accept="image/*"
+                        />
+                        {image && (
+                            <img src={URL.createObjectURL(image)} alt="Preview" />
+                        )}
+                    </div>
+                    <button 
+                        className={`upload-button ${loading ? 'loading' : ''}`}
+                        onClick={handleUpload} 
+                        disabled={!image || loading}
+                    >
+                        {loading ? (
+                            <span>분석 중...</span>
+                        ) : (
+                            <span>분석하기</span>
+                        )}
+                    </button>
+                </div>
+
+                {result.season && (
+                    <div className="result-section">
+                        <div className="result-title">
+                            당신은 <span style={{color: '#FF6B6B'}}>{result.season}</span> 입니다!
+                        </div>
+                        
+                        <div className="chart-section">
+                            <Bar data={chartData} options={chartOptions} />
+                        </div>
+
+                        <div className="debug-section" style={{
+                            backgroundColor: '#f5f5f5',
+                            padding: '20px',
+                            margin: '20px 0',
+                            borderRadius: '8px',
+                            fontSize: '14px',
+                            fontFamily: 'monospace'
+                        }}>
+                            <h3>디버그 정보</h3>
+                            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px'}}>
+                                <div>
+                                    <h4>원본 Lab 값:</h4>
+                                    <pre>
+                                        L: {result.debug_info.raw_values.L}
+                                        a: {result.debug_info.raw_values.a}
+                                        b: {result.debug_info.raw_values.b}
+                                    </pre>
+                                </div>
+                                <div>
+                                    <h4>계산 결과:</h4>
+                                    <pre>
+                                        밝기: {result.debug_info.calculations.brightness_calc}
+                                        웜톤: {result.debug_info.calculations.warmth_calc}
+                                        대비: {result.debug_info.calculations.contrast_calc}
+                                    </pre>
+                                </div>
+                                <div>
+                                    <h4>피부톤 특성:</h4>
+                                    <pre>
+                                        밝기: {result.tone_analysis.brightness_level}
+                                        톤: {result.tone_analysis.warmth_level}
+                                        선명도: {result.tone_analysis.contrast_level}
+                                    </pre>
+                                </div>
+                                <div>
+                                    <h4>임계값:</h4>
+                                    <pre>
+                                        밝기: {JSON.stringify(result.debug_info.thresholds.brightness, null, 2)}
+                                        웜톤: {JSON.stringify(result.debug_info.thresholds.warmth, null, 2)}
+                                        대비: {JSON.stringify(result.debug_info.thresholds.contrast, null, 2)}
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="color-section">
+                            <div className={`best-colors ${result.season.split(' ')[0].toLowerCase()}`}>
+                                <h3>추천 컬러</h3>
+                                <div className="color-boxes">
+                                    {result.best_colors.map((color, index) => (
+                                        <ColorBox key={index} color={color} />
+                                    ))}
+                                </div>
+                            </div>
+                            <div className={`worst-colors ${result.season.split(' ')[0].toLowerCase()}`}>
+                                <h3>피해야 할 컬러</h3>
+                                <div className="color-boxes">
+                                    {result.worst_colors.map((color, index) => (
+                                        <ColorBox key={index} color={color} />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
 
-            {result.season && (
-                <div className="result-section">
-                    <div className="result-title">
-                        당신은 <span style={{color: '#FF6B6B'}}>{result.season}</span> 입니다!
-                    </div>
-                    
-                    <div className="chart-section">
-                        <Bar data={chartData} options={chartOptions} />
-                    </div>
-
-                    <div className="color-section">
-                        <div className={`best-colors ${result.season.split(' ')[0].toLowerCase()}`}>
-                            <h3>추천 컬러</h3>
-                            <div className="color-boxes">
-                                {result.best_colors.map((color, index) => (
-                                    <ColorBox key={index} color={color} />
-                                ))}
-                            </div>
-                        </div>
-                        <div className={`worst-colors ${result.season.split(' ')[0].toLowerCase()}`}>
-                            <h3>피해야 할 컬러</h3>
-                            <div className="color-boxes">
-                                {result.worst_colors.map((color, index) => (
-                                    <ColorBox key={index} color={color} />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <DebugLogs />
         </div>
     );
 }
