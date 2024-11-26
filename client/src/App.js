@@ -41,68 +41,17 @@ function App() {
             contrast_level: ''
         }
     });
-    const [isUploading, setIsUploading] = useState(false);
 
-    const handleFileChange = async (event) => {
+    const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file && file.type.startsWith('image/')) {
-            try {
-                // 이미지 미리보기 및 방향 수정
-                const orientation = await getImageOrientation(file);
-                const compressedImage = await compressImage(file, orientation);
-                setImage(compressedImage);
-            } catch (error) {
-                console.error('Image processing error:', error);
-                alert('이미지 처리 중 오류가 발생했습니다.');
-            }
+            setImage(file);
         } else {
             alert('이미지 파일만 업로드 가능합니다.');
         }
     };
 
-    const getImageOrientation = (file) => {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const view = new DataView(e.target.result);
-                if (view.getUint16(0, false) != 0xFFD8) {
-                    resolve(-2);
-                    return;
-                }
-                const length = view.byteLength;
-                let offset = 2;
-                while (offset < length) {
-                    if (view.getUint16(offset+2, false) <= 8) break;
-                    const marker = view.getUint16(offset, false);
-                    offset += 2;
-                    if (marker == 0xFFE1) {
-                        if (view.getUint32(offset += 2, false) != 0x45786966) {
-                            resolve(-1);
-                            return;
-                        }
-                        const little = view.getUint16(offset += 6, false) == 0x4949;
-                        offset += view.getUint32(offset + 4, little);
-                        const tags = view.getUint16(offset, little);
-                        offset += 2;
-                        for (let i = 0; i < tags; i++) {
-                            if (view.getUint16(offset + (i * 12), little) == 0x0112) {
-                                resolve(view.getUint16(offset + (i * 12) + 8, little));
-                                return;
-                            }
-                        }
-                    } else if ((marker & 0xFF00) != 0xFF00) {
-                        break;
-                    } else {
-                        offset += view.getUint16(offset, false);
-                    }
-                }
-                resolve(-1);
-            };
-            reader.readAsArrayBuffer(file);
-        });
-    };
-
-    const compressImage = async (file, orientation) => {
+    const compressImage = async (file) => {
         return new Promise((resolve) => {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -113,14 +62,6 @@ function App() {
                     const MAX_HEIGHT = 1024;
                     let width = img.width;
                     let height = img.height;
-
-                    if (orientation === 6) {
-                        width = img.height;
-                        height = img.width;
-                    } else if (orientation === 8) {
-                        width = img.height;
-                        height = img.width;
-                    }
 
                     if (width > height) {
                         if (width > MAX_WIDTH) {
@@ -153,18 +94,16 @@ function App() {
     };
 
     const handleUpload = async () => {
-        if (!image || isUploading) return;
-        
-        setIsUploading(true);
+        if (!image) {
+            alert("이미지를 업로드하세요!");
+            return;
+        }
+
         setLoading(true);
-
-        // 상태 업데이트를 위한 약간의 지연
-        await new Promise(resolve => setTimeout(resolve, 0));
-
         const formData = new FormData();
         
         try {
-            // 이미지 압축 작업을 Web Worker로 이동
+            // 이미지 압축
             const compressedImage = await compressImage(image);
             formData.append("image", compressedImage);
 
@@ -175,17 +114,33 @@ function App() {
                 formData,
                 { 
                     headers: { "Content-Type": "multipart/form-data" },
-                    timeout: 30000,
+                    timeout: 30000  // 타임아웃 30초로 설정
                 }
             );
-            
             setResult(response.data);
         } catch (error) {
-            console.error("Upload error:", error);
-            alert("이미지 분석 중 오류가 발생했습니다.");
+            console.error("Error uploading image:", error);
+            if (error.response?.data?.errorType === "NO_FACE_DETECTED") {
+                alert("얼굴을 찾을 수 없습니다. 정면을 바라보는 다른 사진으로 시도해주세요.");
+            } else {
+                alert("이미지 분석 중 오류가 발생했습니다. 다시 시도해주세요.");
+            }
+            setImage(null);
+            setResult({
+                season: '',
+                characteristics: [],
+                skin_tone: { brightness: 0, warmth: 0, contrast: 0 },
+                best_colors: [],
+                worst_colors: [],
+                lab_values: { L: 0, a: 0, b: 0 },
+                tone_analysis: {
+                    brightness_level: '',
+                    warmth_level: '',
+                    contrast_level: ''
+                }
+            });
         } finally {
             setLoading(false);
-            setIsUploading(false);
         }
     };
 

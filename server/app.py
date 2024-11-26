@@ -201,7 +201,7 @@ def extract_skin_color(image_path):
                     "차분하고 깊이 있는 색상이 잘 어울림"
                 ]
     else:  # 쿨톤
-        if brightness > brightness_threshold['bright']:  # 밝��� 톤
+        if brightness > brightness_threshold['bright']:  # 밝은 톤
             if contrast > contrast_threshold['medium_high']:
                 season = "여름 쿨 브라이트"
                 characteristics = [
@@ -380,31 +380,37 @@ def fix_image_rotation(image):
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-    if 'image' not in request.files:
-        logger.error("No image file in request")
-        return jsonify({"error": "이미지가 업로드되지 않았습니다."}), 400
-
-    image_file = request.files['image']
-    logger.info(f"Received image: {image_file.filename}, "
-               f"Content-Type: {image_file.content_type}, "
-               f"Size: {len(image_file.read())} bytes")
-    image_file.seek(0)  # 파일 포인터 리셋
-
     try:
-        # 이미지 처리 전 로그
-        logger.info("Starting image processing")
+        image = Image.open(request.files['image'])
+        image = fix_image_rotation(image)  # 이미지 방향 보정
         
-        # 이미지 처리
-        image = Image.open(image_file)
-        logger.info(f"Image opened: size={image.size}, mode={image.mode}")
+        # 이미지 크기 체크 및 리사이징
+        image = Image.open(image)
         
-        # 얼굴 검출 전 로그
-        logger.info("Starting face detection")
+        # 최대 크기 제한
+        max_size = (1024, 1024)  # 예: 1024x1024
+        image.thumbnail(max_size, Image.Resampling.LANCZOS)
         
-        # 결과 반환 전 로그
-        logger.info("Analysis completed successfully")
+        # 이미지 저장
+        img_byte_arr = io.BytesIO()
+        image.save(img_byte_arr, format='JPEG')
+        img_byte_arr = img_byte_arr.getvalue()
         
-        return jsonify(result)
+        # 임시 파일로 저장
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as temp_file:
+            temp_file.write(img_byte_arr)
+            analysis_result = extract_skin_color(temp_file.name)
+            
+        os.unlink(temp_file.name)  # 임시 파일 삭제
+        
+        if "error" in analysis_result:
+            return jsonify({
+                "error": "얼굴을 찾을 수 없습니다.",
+                "errorType": "NO_FACE_DETECTED"
+            }), 400
+
+        return jsonify(analysis_result)
+
     except Exception as e:
         logger.error(f"Error processing image: {str(e)}", exc_info=True)
         return jsonify({"error": "이미지 처리 중 오류가 발생했습니다."}), 500
