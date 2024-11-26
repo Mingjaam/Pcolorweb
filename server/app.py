@@ -381,4 +381,4 @@ def analyze():
         return jsonify({"error": "이미지 처리 중 오류가 발생했습니다."}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
