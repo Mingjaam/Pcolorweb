@@ -1,0 +1,281 @@
+body {
+    background-color: #FFF0F5;
+    margin: 0;
+    padding: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 업로드 섹션 */
+.upload-section {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+.upload-box {
+    width: min(200px, 100%);
+    height: min(200px, 100vw - 72px);
+    margin: 0;
+    border: 2px dashed #ddd;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-box input[type="file"] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.upload-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* 업로드 안내 텍스트 */
+.upload-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    z-index: 1;
+}
+
+/* 업로드 버튼 컨테이너 */
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+/* 업로드 버튼 */
+.upload-button {
+    width: 80%;
+    max-width: 300px;
+    padding: 12px 32px;
+    background: linear-gradient(45deg, #FF6B6B, #FF8787);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    text-align: center;
+}
+
+.upload-button:hover {
+    background-color: #FF4A4A;
+}
+
+/* 결과 타이틀 */
+.result-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #333;
+}
+
+/* 분석 결과 섹션 */
+.result-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 그래프 섹션 */
+.chart-section {
+    width: 100%;
+    height: 300px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+/* 컬러 섹션 */
+.color-section {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.best-colors, .worst-colors {
+    flex: 1;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 16px;
+}
+
+.best-colors h3, .worst-colors h3 {
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.color-boxes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.color-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.color-box div {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.color-name {
+    font-size: 0.7rem;
+    color: #333;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 400px) {
+    .container {
+        padding: 12px;
+    }
+
+    .upload-section {
+        gap: 24px;
+        padding: 16px;
+    }
+
+    .upload-box {
+        width: min(180px, 100%);
+        height: min(180px, 100vw - 54px);
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 24px;
+    }
+
+    .upload-box {
+        width: 250px;
+        height: 250px;
+    }
+
+    .chart-section {
+        height: 400px;
+    }
+
+    .color-box div {
+        width: 50px;
+        height: 50px;
+    }
+
+    .color-name {
+        font-size: 0.8rem;
+    }
+}
+
+.ad-container {
+    width: 100%;
+    min-height: 90px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .ad-container {
+        min-height: 60px;
+    }
+}
