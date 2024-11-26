@@ -279,21 +279,3 @@ body {
         min-height: 60px;
     }
 }
-
-.debug-logs::-webkit-scrollbar {
-    width: 8px;
-}
-
-.debug-logs::-webkit-scrollbar-track {
-    background: #2e2e2e;
-    border-radius: 4px;
-}
-
-.debug-logs::-webkit-scrollbar-thumb {
-    background: #666;
-    border-radius: 4px;
-}
-
-.debug-logs::-webkit-scrollbar-thumb:hover {
-    background: #888;
-}
