@@ -9,9 +9,11 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement,
+  DoughnutController
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
@@ -23,7 +25,9 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement,
+  DoughnutController
 );
 
 function UploadPage() {
@@ -155,14 +159,14 @@ function ResultPage() {
     };
 
     const chartData = {
-        labels: ['밝기', '웜톤/쿨톤', '선명도'],
+        labels: ['밝기', '웜톤/웜톤', '선명도'],
         datasets: [
             {
                 label: '',
                 data: [
                     calculateRelativeValue(result.lab_values.L, 160),  // 밝기 임계값: 140
-                    calculateRelativeValue((result.lab_values.a * 0.5 + result.lab_values.b * 0.5), 140),  // 웜톤/쿨톤 임계값: 135
-                    calculateRelativeValue(Math.sqrt((result.lab_values.a**2 + result.lab_values.b**2)/2), 140)  // 선명도 임계값: 130
+                    calculateRelativeValue((result.lab_values.a * 0.5 + result.lab_values.b * 0.5), 140),  // 웜톤/쿨톤 임계값: 140
+                    calculateRelativeValue(Math.sqrt((result.lab_values.a**2 + result.lab_values.b**2)/2), 140)  // 선명도 임계값: 140
                 ],
                 backgroundColor: [
                     'rgba(255, 223, 61, 0.7)',
@@ -224,13 +228,55 @@ function ResultPage() {
         }
     };
 
+    const doughnutData = {
+        labels: ['밝기', '따뜻함', '선명도'],
+        datasets: [{
+            data: [
+                Math.abs(result.skin_tone.brightness - 160),  // 기준값(140)과의 차이
+                Math.abs(result.skin_tone.warmth - 140),
+                Math.abs(result.skin_tone.contrast - 140)
+            ],
+            backgroundColor: [
+                'rgba(255, 223, 61, 0.7)',  // 밝기: 노란색
+                'rgba(255, 87, 51, 0.7)',   // 따뜻함: 주황색
+                'rgba(147, 112, 219, 0.7)'  // 선명도: 보라색
+            ],
+            borderColor: [
+                'rgba(255, 223, 61, 1)',
+                'rgba(255, 87, 51, 1)',
+                'rgba(147, 112, 219, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    const doughnutOptions = {
+        responsive: true,
+        maintainAspectRatio: true,
+        cutout: '70%',
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const value = context.raw;
+                        const label = context.label;
+                        return `${label}: ${value.toFixed(1)}`;
+                    }
+                }
+            }
+        }
+    };
+
     // 디버깅을 위한 로그 추가
     console.log('전체 결과:', result);
     console.log('RGB 값:', result?.rgb_values);
 
     return (
         <div className="container">
-            <h1>퍼스널 컬러 분석 결과</h1>
+            <h1>AI 퍼스널 컬러 분석 결과</h1>
             <div className="result-section">
                 <div className="result-title">
                     당신은 <span style={{color: '#FF6B6B'}}>{result.season}</span> 입니다!
@@ -244,17 +290,8 @@ function ResultPage() {
                             </span>
                         ))}
                     </div>
-                    <div className="skin-color-box">
-                        <div 
-                            className="skin-color-circle"
-                            style={{
-                                backgroundColor: result?.rgb_values 
-                                    ? `rgb(${result.rgb_values.r}, ${result.rgb_values.g}, ${result.rgb_values.b})`
-                                    : `rgb(0,0,0)`,  // 기본 피부색으로 변경
-                                border: '2px solid rgba(0,0,0,0.1)'
-                            }}
-                        />
-                        <span className="skin-color-label">피부 평균 색상</span>
+                    <div className="skin-tone-chart">
+                        <Doughnut data={doughnutData} options={doughnutOptions} />
                     </div>
                 </div>
 
