@@ -13,7 +13,7 @@ def extract_skin_color(image_path):
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    # 얼굴 검출
+    # 얼굴 검출 - 단순화된 버전
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.1, 4)
@@ -381,4 +381,4 @@ def analyze():
         return jsonify({"error": "이미지 처리 중 오류가 발생했습니다."}), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=False)
