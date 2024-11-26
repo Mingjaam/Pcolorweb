@@ -4,12 +4,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from PIL import Image
 import io
-import tempfile
-import os
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -208,7 +202,7 @@ def extract_skin_color(image_path):
                     f"{brightness_characteristic} 피부톤",
                     f"{warmth_characteristic} 톤",
                     f"{contrast_characteristic} 대비",
-                    "선명한 파스텔 색이 잘 어울림"
+                    "선명한 파스텔 색상이 잘 어울림"
                 ]
             elif contrast > contrast_threshold['medium']:
                 season = "여름 쿨 라이트"
@@ -366,37 +360,24 @@ def analyze():
         return jsonify({"error": "이미지가 업로드되지 않았습니다."}), 400
 
     image_file = request.files['image']
-    
+
     try:
-        # 이미지 크기 체크 및 리사이징
         image = Image.open(image_file)
-        
-        # 최대 크기 제한
-        max_size = (1024, 1024)  # 예: 1024x1024
-        image.thumbnail(max_size, Image.Resampling.LANCZOS)
-        
-        # 이미지 저장
-        img_byte_arr = io.BytesIO()
-        image.save(img_byte_arr, format='JPEG')
-        img_byte_arr = img_byte_arr.getvalue()
-        
-        # 임시 파일로 저장
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as temp_file:
-            temp_file.write(img_byte_arr)
-            analysis_result = extract_skin_color(temp_file.name)
-            
-        os.unlink(temp_file.name)  # 임시 파일 삭제
+        image_path = "/tmp/temp_image.jpg"
+        image.save(image_path)
+
+        analysis_result = extract_skin_color(image_path)
         
         if "error" in analysis_result:
             return jsonify({
-                "error": "얼굴을 찾을 수 없습니다.",
+                "error": "얼굴을 찾을 수 없습니다. 정면을 바라보는 다른 사진으로 시도해주세요.",
                 "errorType": "NO_FACE_DETECTED"
             }), 400
 
         return jsonify(analysis_result)
 
     except Exception as e:
-        logger.error(f"Error processing image: {str(e)}", exc_info=True)
+        print(f"Error processing image: {e}")
         return jsonify({"error": "이미지 처리 중 오류가 발생했습니다."}), 500
 
 if __name__ == '__main__':
