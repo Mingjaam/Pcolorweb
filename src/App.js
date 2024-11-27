@@ -75,18 +75,65 @@ function UploadPage() {
         }
     };
 
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.currentTarget.classList.add('dragover');
+    };
+
+    const handleDragLeave = (e) => {
+        e.currentTarget.classList.remove('dragover');
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.currentTarget.classList.remove('dragover');
+        
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            setImage(file);
+        } else {
+            alert('이미지 파일만 업로드 가능합니다.');
+        }
+    };
+
     return (
         <div className="container">
             <h1>AI 퍼스널 컬러 분석</h1>
             <div className="upload-section">
                 <div className={`upload-box ${image ? 'has-image' : ''}`}>
+                    <label htmlFor="image-upload" className="upload-label">
+                        <svg 
+                            className="upload-icon" 
+                            width="50" 
+                            height="50" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                        >
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7" />
+                            <polyline points="17 8 12 3 7 8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                        <span className="upload-text">
+                            {image ? '이미지 변경하기' : '이미지 업로드하기'}
+                        </span>
+                    </label>
                     <input
+                        id="image-upload"
                         type="file"
                         onChange={handleFileChange}
                         accept="image/*"
+                        className="hidden-input"
                     />
                     {image && (
-                        <img src={URL.createObjectURL(image)} alt="Preview" />
+                        <img 
+                            src={URL.createObjectURL(image)} 
+                            alt="업로드된 이미지 미리보기" 
+                            className="preview-image"
+                        />
                     )}
                 </div>
                 {!analysisResult ? (
@@ -270,7 +317,7 @@ function ResultPage() {
         }
     };
 
-    // 디버깅을 위한 로그 추가
+    // 디버깅을 위 로그 추가
     console.log('전체 결과:', result);
     console.log('RGB 값:', result?.rgb_values);
 
