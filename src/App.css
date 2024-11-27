@@ -391,6 +391,7 @@ body {
     color: #666;
     font-size: 0.9rem;
     line-height: 1.5;
+    box-sizing: border-box;
 }
 
 .info-text {
@@ -419,6 +420,22 @@ body {
     .info-section {
         padding: 16px;
         font-size: 0.85rem;
+        width: calc(100% - 32px);
+        margin: 20px 16px;
+    }
+
+    /* 인스타그램 버튼 모바일 대응 */
+    .instagram-button {
+        width: calc(100% - 32px);
+        max-width: 300px;
+        margin: 20px auto;
+        position: static;
+        transform: none;
+        left: auto;
+    }
+
+    .instagram-button:hover {
+        transform: translateY(-2px);
     }
 }
 
@@ -442,15 +459,17 @@ body {
     justify-content: center;
     align-items: center;
     height: 100px;
+    overflow-y: auto;
 }
 
 .keyword {
     background: linear-gradient(45deg, #FF6B6B, #FF8787);
     color: white;
-    padding: 6px 12px;
+    padding: 4px 10px;
     border-radius: 20px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 /* 피부톤 차트 영역 */
@@ -491,3 +510,101 @@ button {
     padding: 8px 16px;
 }
 
+/* 인스타그램 버튼 스타일 */
+.instagram-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    width: fit-content;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+.instagram-button:hover {
+    transform: translate(-50%, -2px);
+    box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
+}
+
+.instagram-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* 버튼 그룹 스타일 */
+.button-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    width: 100%;
+    padding: 0 16px;  /* 좌우 여백 추가 */
+    box-sizing: border-box;
+}
+
+.button-group .upload-button.reset,
+.button-group .instagram-button.result {
+    margin: 0;
+    position: static;
+    transform: none;
+    flex: 1;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;  /* 텍스트 줄바꿈 방지 */
+}
+
+.button-group .instagram-button.result {
+    background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+    box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
+}
+
+.button-group .instagram-button.result:hover {
+    transform: translateY(-2px);
+}
+
+.button-group .instagram-button.result svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .button-group {
+        gap: 12px;  /* 간격 약간 줄임 */
+        padding: 0 12px;  /* 좌우 여백 줄임 */
+    }
+
+    .button-group .upload-button.reset,
+    .button-group .instagram-button.result {
+        font-size: 0.85rem;  /* 폰트 크기 약간 줄임 */
+        padding: 0 14px;  /* 패딩 줄임 */
+    }
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .keyword {
+        font-size: 0.75rem;
+        padding: 4.5px 8px;
+    }
+}
