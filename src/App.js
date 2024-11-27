@@ -388,16 +388,6 @@ function ResultPage() {
                     다시 검사하기
                 </button>
             </div>
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7523392188455476"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="autorelaxed"
-     data-ad-client="ca-pub-7523392188455476"
-     data-ad-slot="6537807041"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
         </div>
     );
 }
