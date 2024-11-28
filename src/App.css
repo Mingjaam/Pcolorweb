@@ -812,3 +812,22 @@ button {
         padding: 16px;
     }
 }
+
+/* 광고 섹션 스타일 추가 */
+.ad-section {
+    width: 100%;
+    max-width: 320px;
+    margin: 20px auto;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .ad-section {
+        margin: 15px auto;
+    }
+}

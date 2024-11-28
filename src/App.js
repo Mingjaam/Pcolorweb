@@ -98,6 +98,19 @@ function UploadPage() {
 
     return (
         <div className="container">
+            <div className="ad-section">
+                <ins className="kakao_ad_area" 
+                    style={{display: 'none'}}
+                    data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
+                    data-ad-width="320"
+                    data-ad-height="100">
+                </ins>
+                <script type="text/javascript" 
+                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
+                    async>
+                </script>
+            </div>
+
             <section className="service-intro">
                 <h1>AI 퍼스널 컬러 분석</h1>
                 <p>
@@ -272,6 +285,19 @@ function UploadPage() {
                 )}
             </section>
 
+            <div className="ad-section">
+                <ins className="kakao_ad_area" 
+                    style={{display: 'none'}}
+                    data-ad-unit="DAN-Z0CXfVubRP0mNMgu"
+                    data-ad-width="320"
+                    data-ad-height="50">
+                </ins>
+                <script type="text/javascript" 
+                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
+                    async>
+                </script>
+            </div>
+
             <section className="analysis-explanation">
                 <h3>AI 분석 프로세스</h3>
                 <p>
@@ -340,6 +366,19 @@ function UploadPage() {
                     </svg>
                     개발자 인스타그램
                 </a>
+            </div>
+
+            <div className="ad-section">
+                <ins className="kakao_ad_area" 
+                    style={{display: 'none'}}
+                    data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
+                    data-ad-width="320"
+                    data-ad-height="100">
+                </ins>
+                <script type="text/javascript" 
+                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
+                    async>
+                </script>
             </div>
         </div>
     );
@@ -479,6 +518,19 @@ function ResultPage() {
 
     return (
         <div className="container">
+            <div className="ad-section">
+                <ins className="kakao_ad_area" 
+                    style={{display: 'none'}}
+                    data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
+                    data-ad-width="320"
+                    data-ad-height="100">
+                </ins>
+                <script type="text/javascript" 
+                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
+                    async>
+                </script>
+            </div>
+
             <h1>AI 퍼스널 컬러 분석 결과</h1>
             <div className="result-section">
                 <div className="result-title">
@@ -556,6 +608,19 @@ function ResultPage() {
                         개발자 인스타그램
                     </a>
                 </div>
+            </div>
+
+            <div className="ad-section">
+                <ins className="kakao_ad_area" 
+                    style={{display: 'none'}}
+                    data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
+                    data-ad-width="320"
+                    data-ad-height="100">
+                </ins>
+                <script type="text/javascript" 
+                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
+                    async>
+                </script>
             </div>
         </div>
     );
