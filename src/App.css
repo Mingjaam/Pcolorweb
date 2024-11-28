@@ -377,7 +377,7 @@ body {
     gap: 8px;
 }
 
-/* 다시 검사하기 버튼 (��란색 그라데이션) */
+/* 다시 검사하기 버튼 (란색 그라데이션) */
 .upload-button.reset {
     margin: 30px auto;  /* 상하 여백 30px, 좌우 auto로 중앙 정렬 */
     display: block;     /* block 요소로 변경하여 margin auto 적용 가능하게 함 */
@@ -739,12 +739,13 @@ button {
 /* 분석 로직 설명 섹션 */
 .analysis-explanation {
     width: 100%;
-    max-width: 600px;
+    max-width: 100%;
     margin: 40px auto 20px;
-    padding: 24px;
+    padding: 20px;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-sizing: border-box;
 }
 
 .analysis-explanation h3 {
@@ -769,10 +770,18 @@ button {
 
 .analysis-steps li {
     display: flex;
-    align-items: flex-start;
-    margin-bottom: 12px;
-    font-size: 0.9rem;
-    color: #555;
+    flex-direction: column;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.analysis-steps li p {
+    margin: 5px 0 0 20px;
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: normal;
 }
 
 .analysis-steps li::before {
@@ -780,6 +789,7 @@ button {
     color: #FF6B6B;
     font-weight: bold;
     margin-right: 8px;
+    float: left;
 }
 
 @media (max-width: 768px) {
@@ -798,7 +808,7 @@ button {
     }
 
     .analysis-explanation {
-        margin: 30px 16px;
-        padding: 20px;
+        margin: 30px 0;
+        padding: 16px;
     }
 }
