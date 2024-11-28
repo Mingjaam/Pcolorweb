@@ -98,7 +98,84 @@ function UploadPage() {
 
     return (
         <div className="container">
-            <h1>AI 퍼스널 컬러 분석</h1>
+            <section className="service-intro">
+                <h1>AI 퍼스널 컬러 분석</h1>
+                <p>
+                    AI 이미지 분석 기술로 당신만의 퍼스널 컬러를 찾아보세요.<br/>
+                    얼굴 사진 하나로 피부톤을 분석하고 어울리는 컬러를 추천해드립니다.
+                </p>
+                <div className="service-features">
+                    <div className="feature">
+                        <svg 
+                            className="feature-icon" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                        >
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <h3>정확한 분석</h3>
+                        <p>AI 이미지 처리 기술로<br/>피부톤을 정밀하게 분석</p>
+                    </div>
+                    <div className="feature">
+                        <svg 
+                            className="feature-icon" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                        >
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="7.5 4.21 12 6.81 16.5 4.21"/>
+                            <polyline points="7.5 19.79 7.5 14.6 3 12"/>
+                            <polyline points="21 12 16.5 14.6 16.5 19.79"/>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>
+                        <h3>맞춤 추천</h3>
+                        <p>분석 결과에 따른<br/>맞춤형 컬러 팔레트 제공</p>
+                    </div>
+                    <div className="feature">
+                        <svg 
+                            className="feature-icon" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                        >
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <h3>즉시 확인</h3>
+                        <p>분석 결과를 차트와 함께<br/>한눈에 확인</p>
+                    </div>
+                    <div className="feature">
+                        <svg 
+                            className="feature-icon" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                        >
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <h3>안전한 분석</h3>
+                        <p>이미지는 분석 후<br/>즉시 삭제됩니다</p>
+                    </div>
+                </div>
+            </section>
+
             <div className="upload-section">
                 <div className={`upload-box ${image ? 'has-image' : ''}`}>
                     <label htmlFor="image-upload" className="upload-label">
@@ -160,6 +237,23 @@ function UploadPage() {
                     </button>
                 )}
             </div>
+            <section className="analysis-explanation">
+                <h3>AI 분석 프로세스</h3>
+                <p>
+                    본 서비스는 컴퓨터 비전과 머신러닝 기술을 활용하여 다음과 같은 과정으로 분석을 진행합니다:
+                </p>
+                <ul className="analysis-steps">
+                    <li>얼굴 영역 검출 및 피부톤 추출</li>
+                    <li>Lab 색공간에서의 색상값 분석</li>
+                    <li>밝기(명도), 따뜻함(색상), 선명도(채도) 측정</li>
+                    <li>퍼스널 컬러 시즌 판정</li>
+                    <li>어울리는 컬러 팔레트 매칭</li>
+                </ul>
+                <p>
+                    분석 결과는 조명, 카메라 설정, 화장 여부 등에 따라 달라질 수 있으며,
+                    전문가의 대면 진단을 완전히 대체할 수는 없습니다.
+                </p>
+            </section>
             <div className="info-section">
                 <p className="info-text">
                     이 검사는 AI 이미지 분석 모델을 통해 얼굴의 색상값을 분석하는 방식으로 진행됩니다.<br/>
