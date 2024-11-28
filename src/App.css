@@ -208,10 +208,29 @@ body {
 
 /* 분석 결과 섹션 */
 .result-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+    margin-top: 40px;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .result-section {
+        margin-top: 30px;
+        padding: 16px;
+    }
 }
 
 /* 그래프 섹션 */
@@ -358,7 +377,7 @@ body {
     gap: 8px;
 }
 
-/* 다시 검사하기 버튼 (파란색 그라데이션) */
+/* 다시 검사하기 버튼 (��란색 그라데이션) */
 .upload-button.reset {
     margin: 30px auto;  /* 상하 여백 30px, 좌우 auto로 중앙 정렬 */
     display: block;     /* block 요소로 변경하여 margin auto 적용 가능하게 함 */

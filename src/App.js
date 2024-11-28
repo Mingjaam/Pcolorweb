@@ -176,7 +176,7 @@ function UploadPage() {
                 </div>
             </section>
 
-            <div className="upload-section">
+            <section className="upload-section">
                 <div className={`upload-box ${image ? 'has-image' : ''}`}>
                     <label htmlFor="image-upload" className="upload-label">
                         <svg 
@@ -229,14 +229,49 @@ function UploadPage() {
                         )}
                     </button>
                 ) : (
-                    <button 
-                        className="upload-button result"
-                        onClick={() => navigate('/result', { state: { result: analysisResult } })}
-                    >
-                        결과 보기
-                    </button>
+                    <>
+                        <section className="result-section">
+                            <div className="result-title">
+                                당신은 <span style={{color: '#FF6B6B'}}>{analysisResult.season}</span> 입니다!
+                            </div>
+                            <div className="keywords-section">
+                                <div className="keywords-container">
+                                    {analysisResult.characteristics.map((characteristic, index) => (
+                                        <span key={index} className="keyword">
+                                            {characteristic}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="color-section">
+                                <div className={`best-colors ${analysisResult.season.split(' ')[0].toLowerCase()}`}>
+                                    <h3>추천 컬러</h3>
+                                    <div className="color-boxes">
+                                        {analysisResult.best_colors.map((color, index) => (
+                                            <div key={index} className="color-box">
+                                                <div
+                                                    style={{
+                                                        backgroundColor: color.value,
+                                                        border: '1px solid rgba(0,0,0,0.1)'
+                                                    }}
+                                                />
+                                                <span className="color-name">{color.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <button 
+                            className="upload-button result"
+                            onClick={() => navigate('/result', { state: { result: analysisResult } })}
+                        >
+                            결과 상세보기
+                        </button>
+                    </>
                 )}
-            </div>
+            </section>
+
             <section className="analysis-explanation">
                 <h3>AI 분석 프로세스</h3>
                 <p>
