@@ -169,7 +169,7 @@ function UploadPage() {
                             <line x1="12" y1="8" x2="12.01" y2="8"/>
                         </svg>
                         <h3>즉시 확인</h3>
-                        <p>분석 결과를 차트와 함께<br/>한눈에 확인</p>
+                        <p>분석 결과 차트와 함께<br/>한눈에 확인</p>
                     </div>
                     <div className="feature">
                         <svg 
@@ -626,12 +626,356 @@ function ResultPage() {
     );
 }
 
+function AppBar() {
+    const navigate = useNavigate();
+    
+    return (
+        <div className="app-bar">
+            <div className="app-bar-content">
+                <h1 onClick={() => navigate('/')} className="app-title">AI 퍼스널 컬러</h1>
+                <div className="nav-buttons">
+                    <button 
+                        onClick={() => navigate('/info')} 
+                        className="info-button"
+                    >
+                        AI 퍼스널컬러란?
+                    </button>
+                    <button 
+                        onClick={() => navigate('/codeinfo')} 
+                        className="code-button"
+                    >
+                        분석 코드 살펴보기
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function InfoPage() {
+    return (
+        <div className="info-page-container">
+            <section className="info-section">
+                <h2>AI 퍼스널 컬러 분석 시스템</h2>
+                
+                <div className="intro-section">
+                    <h3>퍼스널 컬러의 이해</h3>
+                    <p>
+                        퍼스널 컬러는 개인의 타고난 피부 톤, 눈동자 색, 머리카락 색상 등과 자연스럽게 어우러지는 
+                        색상을 의미합니다. 이는 단순한 선호도나 유행을 넘어서는 과학적인 색채 분석 시스템으로, 
+                        개인의 이미지를 극대화할 수 있는 색상 선택의 기준이 됩니다.
+                    </p>
+                </div>
+
+                <div className="history-section">
+                    <h3>퍼스널 컬러의 역사적 발전</h3>
+                    <p>
+                        1. <strong>요하네스 이텐의 발견 (1920년대)</strong><br/>
+                        바우하우스의 색채 이론가인 요하네스 이텐이 학생들의 작품 색상 선택이 
+                        그들의 외형적 특성과 연관성이 있다는 것을 발견했습니다.
+                    </p>
+                    <p>
+                        2. <strong>수잔 캐글런의 체계화 (1970년대)</strong><br/>
+                        메이크업 아티스트 수잔 캐글런이 피부톤을 따뜻한 색과 차가운 색으로 
+                        분류하는 기초적인 시스템을 개발했습니다.
+                    </p>
+                    <p>
+                        3. <strong>캐롤 잭슨의 4계절 이론 (1980년대)</strong><br/>
+                        색채 전문가 캐롤 잭슨이 현대적인 4계절 퍼스널 컬러 시스템을 확립했습니다.
+                    </p>
+                </div>
+
+                <div className="science-section">
+                    <h3>색채 과학과 퍼스널 컬러</h3>
+                    <h4>1. 피부색의 과학적 구성</h4>
+                    <p>
+                        피부색은 다음 세 가지 요소로 구성됩니다:
+                    </p>
+                    <ul>
+                        <li>멜라닌: 갈색~검은색 색소</li>
+                        <li>카로틴: 노란색~주황색 색소</li>
+                        <li>헤모글로빈: 붉은색 색소</li>
+                    </ul>
+                    
+                    <h4>2. Lab 색공간의 활용</h4>
+                    <p>
+                        CIE Lab 색공간은 인간의 시각 인지 방식과 가장 유사한 색상 체계로, 
+                        다음 세 가지 차원으로 구성됩니다:
+                    </p>
+                    <ul>
+                        <li>L (Lightness): 밝기값 (0~100)</li>
+                        <li>a (red-green): 붉은색/녹색 축 (-128~+127)</li>
+                        <li>b (yellow-blue): 노란색/파란색 축 (-128~+127)</li>
+                    </ul>
+                </div>
+
+                <div className="analysis-section">
+                    <h3>AI 분석 프로세스</h3>
+                    <h4>1. 이미지 전처리</h4>
+                    <p>
+                        - 노이즈 제거 및 조명 보정<br/>
+                        - 얼굴 영역 검출 (Haar Cascade 알고리즘)<br/>
+                        - T존/U존 분리 및 피부 마스크 생성
+                    </p>
+
+                    <h4>2. 피부톤 분석</h4>
+                    <p>
+                        분석은 다음 세 가지 주요 지표를 기준으로 합니다:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>밝기(명도)</strong>
+                            <p>- 매우 밝음 (L &gt; 168)</p>
+                            <p>- 밝음 (164 &lt; L ≤ 168)</p>
+                            <p>- 중간 (160 &lt; L ≤ 164)</p>
+                            <p>- 어두움 (L ≤ 160)</p>
+                        </li>
+                        <li>
+                            <strong>따뜻함(색상)</strong>
+                            <p>- 매우 따뜻함 (warmth &gt; 145)</p>
+                            <p>- 따뜻함 (142.5 &lt; warmth ≤ 145)</p>
+                            <p>- 중성 (140 &lt; warmth ≤ 142.5)</p>
+                            <p>- 차가움 (warmth ≤ 140)</p>
+                        </li>
+                        <li>
+                            <strong>선명도(채도)</strong>
+                            <p>- 매우 선명함 (contrast &gt; 145)</p>
+                            <p>- 선명함 (142.5 &lt; contrast ≤ 145)</p>
+                            <p>- 중간 (140 &lt; contrast ≤ 142.5)</p>
+                            <p>- 뮤트함 (contrast ≤ 140)</p>
+                        </li>
+                    </ul>
+
+                    <h4>3. 계절 유형 판정</h4>
+                    <p>
+                        분석된 특성을 바탕으로 다음과 같은 계절을 판정합니다:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>봄 웜톤</strong>
+                            <p>- 브라이트: 밝고 선명한 톤</p>
+                            <p>- 라이트: 밝고 부드러운 톤</p>
+                        </li>
+                        <li>
+                            <strong>여름 쿨톤</strong>
+                            <p>- 브라이트: 밝고 선명한 톤</p>
+                            <p>- 라이트: 밝고 부드러운 톤</p>
+                        </li>
+                        <li>
+                            <strong>가을 웜톤</strong>
+                            <p>- 딥: 깊이 있는 톤</p>
+                            <p>- 뮤트: 차분한 톤</p>
+                        </li>
+                        <li>
+                            <strong>겨울 쿨톤</strong>
+                            <p>- 딥: 진하고 강한 톤</p>
+                            <p>- 뮤트: 차분하고 깊이 있는 톤</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div className="application-section">
+                    <h3>실생활 활용</h3>
+                    <h4>1. 메이크업</h4>
+                    <p>
+                        퍼스널 컬러를 활용한 메이크업은 다음과 같은 효과를 줍니다:
+                    </p>
+                    <ul>
+                        <li>피부 톤 보정 효과 극대화</li>
+                        <li>자연스러운 혈색 표현</li>
+                        <li>조화로운 포인트 메이크업</li>
+                    </ul>
+
+                    <h4>2. 의상 선택</h4>
+                    <p>
+                        퍼스널 컬러에 맞는 의상 선택은 다음과 같은 이점이 있습니다:
+                    </p>
+                    <ul>
+                        <li>전체적인 이미지 향상</li>
+                        <li>피부 톤을 더욱 건강하게 표현</li>
+                        <li>효율적인 워드로브 구축</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    );
+}
+
+function CodeInfo() {
+    return (
+        <div className="container code-info-page">
+            <h2>AI 퍼스널 컬러 분석 알고리즘 상세 설명</h2>
+            
+            <section className="code-analysis">
+                <h3>1. 얼굴 검출 및 영역 분할</h3>
+                <div className="code-section">
+                    <pre>{`
+def extract_skin_color(image_path):
+    # 얼굴 검출
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+    
+    # T존과 U존 분리
+    face_height, face_width = face_roi.shape[:2]
+    t_zone = face_roi[0:int(face_height*0.6), int(face_width*0.3):int(face_width*0.7)]
+    u_zone = face_roi[int(face_height*0.3):int(face_height*0.7), 0:int(face_width)]
+                    `}</pre>
+                </div>
+                <div className="code-explanation">
+                    <h4>Haar Cascade 얼굴 검출</h4>
+                    <p>
+                        OpenCV의 Haar Cascade 분류기는 머신러닝 기반의 객체 검출 알고리즘입니다. 
+                        이 알고리즘은 다음과 같은 특징을 가집니다:
+                    </p>
+                    <ul>
+                        <li>cascade 구조로 빠른 검출 속도 보장</li>
+                        <li>수천 개의 얼굴 이미지로 사전 학습된 모델 사용</li>
+                        <li>다양한 크기와 각도의 얼굴 검출 가능</li>
+                    </ul>
+
+                    <h4>얼굴 영역 분할 (T존/U존)</h4>
+                    <p>
+                        검출된 얼굴을 분석에 용이하도록 두 영역으로 분할합니다:
+                    </p>
+                    <ul>
+                        <li>T존 (이마와 코 부위): 전체 높이의 60%, 중앙 40% 영역</li>
+                        <li>U존 (양 볼 부위): 중간 높이의 40%, 전체 너비</li>
+                        <li>각 영역은 서로 다른 특성을 가지므로 개별 분석 후 가중 평균 계산</li>
+                    </ul>
+                </div>
+
+                <h3>2. 조명 보정 및 피부색 추출</h3>
+                <div className="code-section">
+                    <pre>{`
+def correct_lighting(img):
+    lab = cv2.cvtColor(img, cv2.COLOR_RGB2Lab)
+    l, a, b = cv2.split(lab)
+    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8,8))
+    l = clahe.apply(l)
+    return cv2.cvtColor(cv2.merge([l, a, b]), cv2.COLOR_Lab2RGB)
+
+def create_skin_mask(img):
+    lab = cv2.cvtColor(img, cv2.COLOR_RGB2Lab)
+    lower_skin = np.array([40, 130, 130])
+    upper_skin = np.array([220, 150, 150])
+    return cv2.inRange(lab, lower_skin, upper_skin)
+                    `}</pre>
+                </div>
+                <div className="code-explanation">
+                    <h4>CLAHE 조명 보정</h4>
+                    <p>
+                        CLAHE(Contrast Limited Adaptive Histogram Equalization)는 
+                        지역적 히스토그램 평활화를 수행하는 고급 이미지 처리 알고리즘입니다:
+                    </p>
+                    <ul>
+                        <li>이미지를 8x8 타일로 분할하여 각 영역별 독립적인 히스토그램 평활화 수행</li>
+                        <li>clipLimit=3.0으로 설정하여 과도한 대비 향상 방지</li>
+                        <li>조명의 영향을 최소화하면서 피부톤의 자연스러운 특성 보존</li>
+                    </ul>
+
+                    <h4>Lab 색공간 변환</h4>
+                    <p>
+                        RGB가 아닌 Lab 색공간을 사용하는 이유:
+                    </p>
+                    <ul>
+                        <li>L: 명도(Lightness) - 밝기 정보를 독립적으로 표현</li>
+                        <li>a: 빨강-초록 축 - 피부의 붉은 기 측정</li>
+                        <li>b: 노랑-파랑 축 - 피부의 황색 기 측정</li>
+                        <li>인간의 시각 인지 방식과 유사한 구조</li>
+                    </ul>
+
+                    <h4>피부색 마스크 생성</h4>
+                    <p>
+                        Lab 색공간에서 정의된 피부색 범위를 사용하여 마스크 생성:
+                    </p>
+                    <ul>
+                        <li>L값 범위 [40, 220]: 매우 어두운 피부톤부터 매우 밝은 피부톤까지 포함</li>
+                        <li>a값 범위 [130, 150]: 적절한 붉은 기 범위 지정</li>
+                        <li>b값 범위 [130, 150]: 적절한 황색 기 범위 지정</li>
+                    </ul>
+                </div>
+
+                <h3>3. 퍼스널 컬러 분석 알고리즘</h3>
+                <div className="code-section">
+                    <pre>{`
+# 피부톤 특성 분석
+brightness = L
+warmth = (a * 0.5) + (b * 0.5)
+contrast = np.sqrt((a**2 + b**2)/2)
+
+if warmth > warmth_threshold['neutral']:  # 웜톤
+    if brightness > brightness_threshold['bright']:  # 밝은 톤
+        if contrast > contrast_threshold['medium_high']:
+            season = "봄 웜 브라이트"
+        else:
+            season = "봄 웜 라이트"
+    else:  # 어두운 톤
+        if contrast > contrast_threshold['medium_high']:
+            season = "가을 웜 딥"
+        else:
+            season = "가을 웜 뮤트"
+                    `}</pre>
+                </div>
+                <div className="code-explanation">
+                    <h4>주요 특성 계산</h4>
+                    <p>
+                        세 가지 핵심 지표를 계산하여 퍼스널 컬러를 판정합니다:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>밝기(brightness)</strong>
+                            <p>- L값을 직접 사용</p>
+                            <p>- 범위: 0(검정) ~ 100(흰색)</p>
+                            <p>- 기준값: 매우 밝음(&gt;168), 밝음(&gt;164), 중간(&gt;160), 어두움(&lt;=160)</p>
+                        </li>
+                        <li>
+                            <strong>따뜻함(warmth)</strong>
+                            <p>- a값과 b값의 가중 평균으로 계산</p>
+                            <p>- 높을수록 웜톤, 낮을수록 쿨톤</p>
+                            <p>- 기준값: 매우 따뜻함(&gt;145), 따뜻함(&gt;142.5), 중성(&gt;140), 차가움(&lt;=140)</p>
+                        </li>
+                        <li>
+                            <strong>선명도(contrast)</strong>
+                            <p>- a값과 b값의 제곱평균제곱근으로 계산</p>
+                            <p>- 높을수록 선명(브라이트), 낮을수록 뮤트</p>
+                            <p>- 기준값: 매우 선명함(&gt;145), 선명함(&gt;142.5), 중간(&gt;140), 뮤트함(&lt;=140)</p>
+                        </li>
+                    </ul>
+
+                    <h4>계절 판정 로직</h4>
+                    <p>
+                        계산된 특성값을 기반으로 다음과 같은 의사결정 트리를 통해 계절을 판정합니다:
+                    </p>
+                    <ul>
+                        <li>1단계: 웜톤/쿨톤 구분 (warmth 값 기준)</li>
+                        <li>2단계: 밝기 레벨 판정 (brightness 값 기준)</li>
+                        <li>3단계: 선명도 판정 (contrast 값 기준)</li>
+                        <li>4단계: 최종 세부 유형 결정</li>
+                    </ul>
+
+                    <p>
+                        예를 들어, "봄 웜 브라이트"로 판정되는 경우:
+                    </p>
+                    <ul>
+                        <li>warmth &gt; 142.5 (웜톤)</li>
+                        <li>brightness &gt; 164 (밝은톤)</li>
+                        <li>contrast &gt; 142.5 (선명한톤)</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    );
+}
+
 function App() {
     return (
         <Router>
+            <AppBar />
             <Routes>
                 <Route path="/" element={<UploadPage />} />
                 <Route path="/result" element={<ResultPage />} />
+                <Route path="/info" element={<InfoPage />} />
+                <Route path="/codeinfo" element={<CodeInfo />} />
             </Routes>
         </Router>
     );
