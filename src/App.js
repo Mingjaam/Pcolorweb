@@ -93,10 +93,23 @@ function UploadPage() {
             );
             
             if (response.data && !response.data.error) {
-                setAnalysisResult(response.data);
-                setAnalysisComplete(true);
-            } else {
-                throw new Error(response.data.error || "분석 중 오류가 발생했습니다.");
+                const resultData = response.data;
+                
+                const checkComplete = setInterval(() => {
+                    if (analysisComplete) {
+                        setAnalysisResult(resultData);
+                        setLoading(false);
+                        clearInterval(checkComplete);
+                    }
+                }, 1000);
+
+                setTimeout(() => {
+                    clearInterval(checkComplete);
+                    if (!analysisResult) {
+                        setAnalysisResult(resultData);
+                        setLoading(false);
+                    }
+                }, 60000);
             }
         } catch (error) {
             console.error("Upload error:", error);
@@ -750,7 +763,7 @@ function InfoPage() {
                 <ul>
                     <li>밝고 선명한 톤</li>
                     <li>노란빛이 도는 밝은 피부</li>
-                    <li>선명하고 부드러운 이미지</li>
+                    <li>선명하고 부드러�� 이미지</li>
                     <li>봄처럼 생기 있고 활기찬 이미지 연출</li>
                 </ul>
                 
