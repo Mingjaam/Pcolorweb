@@ -91,8 +91,12 @@ function UploadPage() {
                     headers: { "Content-Type": "multipart/form-data" }
                 }
             );
-            if (analysisComplete) {
+            
+            if (response.data && !response.data.error) {
                 setAnalysisResult(response.data);
+                setAnalysisComplete(true);
+            } else {
+                throw new Error(response.data.error || "분석 중 오류가 발생했습니다.");
             }
         } catch (error) {
             console.error("Upload error:", error);
@@ -102,10 +106,7 @@ function UploadPage() {
                 alert("이미지 분석 중 오류가 발생했습니다. 다시 시도해주세요.");
             }
             setAnalysisComplete(false);
-        } finally {
-            if (!analysisComplete) {
-                setLoading(false);
-            }
+            setLoading(false);
         }
     };
 
