@@ -148,6 +148,29 @@ function UploadPage() {
         }
     };
 
+    // 서버 ping 함수 추가
+    const pingServer = async () => {
+        try {
+            const API_URL = "https://pcolorweb.onrender.com";
+            await axios.get(`${API_URL}/ping`);
+            console.log('Server pinged successfully');
+        } catch (error) {
+            console.error('Failed to ping server:', error);
+        }
+    };
+
+    // 컴포넌트 마운트 시 5분마다 서버에 ping
+    useEffect(() => {
+        // 초기 ping
+        pingServer();
+        
+        // 5분마다 ping 반복
+        const interval = setInterval(pingServer, 8 * 60 * 1000);
+        
+        // 컴포넌트 언마운트 시 interval 정리
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className="container">
             <div className="ad-section">

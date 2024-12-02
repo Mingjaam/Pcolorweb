@@ -381,10 +381,12 @@ def analyze():
     if 'image' not in request.files:
         return jsonify({"error": "이미지가 업로드되지 않았습니다."}), 400
 
+    image_file = request.files['image']
+
     try:
-        image_file = request.files['image']
+        image = Image.open(image_file)
         image_path = "/tmp/temp_image.jpg"
-        image_file.save(image_path)
+        image.save(image_path)
 
         analysis_result = extract_skin_color(image_path)
         
@@ -395,9 +397,14 @@ def analyze():
             }), 400
 
         return jsonify(analysis_result)
+
     except Exception as e:
         print(f"Error processing image: {e}")
         return jsonify({"error": "이미지 처리 중 오류가 발생했습니다."}), 500
+
+@app.route('/ping')
+def ping():
+    return jsonify({'status': 'ok'})
 
 if __name__ == '__main__':
     app.run()
