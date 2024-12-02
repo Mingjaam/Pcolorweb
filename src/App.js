@@ -349,7 +349,7 @@ function UploadPage() {
                 </p>
                 
                 <p className="info-text important">
-                    분���에 사용된 이미지는 어디에도 저장되지 않으며, 분석 후 즉시 삭제됩니다.
+                    분석에 사용된 이미지는 어디에도 저장되지 않으며, 분석 후 즉시 삭제됩니다.
                 </p>
                 
                 <a 
