@@ -115,18 +115,18 @@ def extract_skin_color(image_path):
     
     # warmth 임계값 수정
     warmth_threshold = {
-        'very_warm': 145,
-        'warm': 142.5,
-        'neutral': 140,
-        'cool': 137.5,
-        'very_cool': 135
+        'very_warm': 142.5,
+        'warm': 140,
+        'neutral': 137.5,
+        'cool': 135,
+        'very_cool': 132.5
     }
     
     # contrast 임계값 수정
     contrast_threshold = {  
-        'high': 145,        # 값 하향 조정
-        'medium_high': 142.5,
-        'medium': 140,
+        'high': 142.5,        # 값 하향 조정
+        'medium_high': 140,
+        'medium': 137.5,
         'low': 135
     }
 
