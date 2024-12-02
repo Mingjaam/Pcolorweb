@@ -557,6 +557,17 @@ function ResultPage() {
     console.log('전체 결과:', result);
     console.log('RGB 값:', result?.rgb_values);
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText('pcolorweb.vercel.app')
+            .then(() => {
+                alert('주소가 복사되었습니다!');
+            })
+            .catch(err => {
+                console.error('복사 실패:', err);
+                alert('주소 복사에 실패했습니다.');
+            });
+    };
+
     return (
         <div className="container">
             <div className="ad-section">
@@ -571,8 +582,23 @@ function ResultPage() {
             <div className="result-section">
                 <div className="result-title">
                     당신은 <span style={{color: '#FF6B6B'}}>{result.season}</span> 입니다!
-                    <div className="website-link">
-                        pcolorweb.vercel.app
+                    <div className="website-link-container">
+                        <span className="website-link">pcolorweb.vercel.app</span>
+                        <button onClick={handleCopy} className="copy-button">
+                            <svg 
+                                width="16" 
+                                height="16" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="2" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round"
+                            >
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
                 
