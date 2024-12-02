@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Chart as ChartJS,
@@ -37,7 +37,32 @@ function UploadPage() {
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [analysisResult, setAnalysisResult] = useState(null);
+    const [analysisMessage, setAnalysisMessage] = useState('');
+    const [analysisComplete, setAnalysisComplete] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        let timer;
+        if (loading) {
+            setAnalysisMessage('이미지를 확인 중입니다.');
+            timer = setTimeout(() => {
+                setAnalysisMessage('얼굴을 찾고 있습니다.');
+                setTimeout(() => {
+                    setAnalysisMessage('얼굴을 분석중입니다.');
+                    setTimeout(() => {
+                        setAnalysisMessage('퍼스널 컬러를 분석중입니다.');
+                        setTimeout(() => {
+                            setAnalysisComplete(true);
+                        }, 10000);
+                    }, 10000);
+                }, 10000);
+            }, 10000);
+        }
+        return () => {
+            clearTimeout(timer);
+            setAnalysisComplete(false);
+        };
+    }, [loading]);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -52,6 +77,7 @@ function UploadPage() {
         if (!image || loading) return;
         
         setLoading(true);
+        setAnalysisComplete(false);
         const formData = new FormData();
         
         try {
@@ -65,7 +91,9 @@ function UploadPage() {
                     headers: { "Content-Type": "multipart/form-data" }
                 }
             );
-            setAnalysisResult(response.data);
+            if (analysisComplete) {
+                setAnalysisResult(response.data);
+            }
         } catch (error) {
             console.error("Upload error:", error);
             if (error.response?.data?.errorType === "NO_FACE_DETECTED") {
