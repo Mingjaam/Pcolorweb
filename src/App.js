@@ -101,8 +101,11 @@ function UploadPage() {
             } else {
                 alert("이미지 분석 중 오류가 발생했습니다. 다시 시도해주세요.");
             }
+            setAnalysisComplete(false);
         } finally {
-            setLoading(false);
+            if (!analysisComplete) {
+                setLoading(false);
+            }
         }
     };
 
@@ -216,27 +219,6 @@ function UploadPage() {
             </section>
 
             <section className="upload-section">
-                <div className="upload-guide">
-                    <h2>AI 퍼스널 컬러 분석 가이드</h2>
-                    <div className="guide-steps">
-                        <div className="guide-step">
-                            <h3>1. 적절한 사진 선택</h3>
-                            <ul>
-                                <li>자연광이나 밝은 조명에서 촬영된 사진</li>
-                                <li>정면을 바라보는 얼굴 사진</li>
-                                <li>화장을 하지 않은 맨 얼굴 권장</li>
-                            </ul>
-                        </div>
-                        <div className="guide-step">
-                            <h3>2. 분석 과정</h3>
-                            <ul>
-                                <li>얼굴 인식 및 피부톤 추출</li>
-                                <li>밝기, 채도, 색상 분석</li>
-                                <li>퍼스널 컬러 시즌 판정</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 <div className={`upload-box ${image ? 'has-image' : ''}`}>
                     <label htmlFor="image-upload" className="upload-label">
                         <svg 
