@@ -349,7 +349,7 @@ function UploadPage() {
                 </p>
                 
                 <p className="info-text important">
-                    분석에 사용된 이미지는 어디에도 저장되지 않으며, 분석 후 즉시 삭제됩니다.
+                    분���에 사용된 이미지는 어디에도 저장되지 않으며, 분석 후 즉시 삭제됩니다.
                 </p>
                 
                 <a 
@@ -637,6 +637,12 @@ function AppBar() {
 function InfoPage() {
     return (
         <div className="info-page-container">
+            <KakaoAdFit 
+                unit="DAN-Vc8hjg8RFxxUyYjP"
+                width="320"
+                height="100"
+            />
+            
             <div className="info-card">
                 <h2>1. 퍼스널 컬러란?</h2>
                 <p>
@@ -741,6 +747,12 @@ function InfoPage() {
                     <li>겨울처럼 모던하고 세련된 이미지 연출</li>
                 </ul>
             </div>
+            
+            <KakaoAdFit 
+                unit="DAN-Vc8hjg8RFxxUyYjP"
+                width="320"
+                height="100"
+            />
         </div>
     );
 }
@@ -748,6 +760,12 @@ function InfoPage() {
 function CodeInfo() {
     return (
         <div className="container code-info-page">
+            <KakaoAdFit 
+                unit="DAN-Vc8hjg8RFxxUyYjP"
+                width="320"
+                height="100"
+            />
+            
             <h2>AI 퍼스널 컬러 분석 알고리즘 상세 설명</h2>
             
             <section className="code-analysis">
@@ -784,7 +802,7 @@ def extract_skin_color(image_path):
                     <ul>
                         <li>T존 (이마와 코 부위): 전체 높이의 60%, 중앙 40% 영역</li>
                         <li>U존 (양 볼 부위): 중간 높이의 40%, 전체 너비</li>
-                        <li>각 ���역은 서로 다른 특성을 가지므로 개별 분석 후 가중 평균 계산</li>
+                        <li>각 역은 서로 다른 특성을 가지므로 개별 분석 후 가중 평균 계산</li>
                     </ul>
                 </div>
 
@@ -882,6 +900,12 @@ if warmth > warmth_threshold['neutral']:  # 웜톤
                     </ul>
                 </div>
             </section>
+            
+            <KakaoAdFit 
+                unit="DAN-Vc8hjg8RFxxUyYjP"
+                width="320"
+                height="100"
+            />
         </div>
     );
 }
