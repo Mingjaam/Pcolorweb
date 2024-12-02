@@ -93,8 +93,10 @@ function UploadPage() {
             );
             
             if (response.data && !response.data.error) {
+                // 응답 데이터를 임시 저장
                 const resultData = response.data;
                 
+                // analysisComplete가 true가 될 때까지 기다린 후 결과 설정
                 const checkComplete = setInterval(() => {
                     if (analysisComplete) {
                         setAnalysisResult(resultData);
@@ -103,6 +105,7 @@ function UploadPage() {
                     }
                 }, 1000);
 
+                // 안전장치: 60초 후에는 강제로 종료
                 setTimeout(() => {
                     clearInterval(checkComplete);
                     if (!analysisResult) {
@@ -425,10 +428,6 @@ function ResultPage() {
     const location = useLocation();
     const result = location.state?.result;
 
-    if (!result) {
-        navigate('/');
-        return null;
-    }
 
     const calculateRelativeValue = (value, threshold) => {
         // 임계값과의 차이를 -30 ~ +30 범위로 제한
