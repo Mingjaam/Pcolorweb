@@ -1329,3 +1329,17 @@ button {
         font-size: 0.9rem;
     }
 }
+
+.analysis-time-notice {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    line-height: 1.5;
+}
+
+.loading-container span {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
