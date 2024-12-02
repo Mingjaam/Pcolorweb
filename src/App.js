@@ -100,7 +100,7 @@ function UploadPage() {
         <div className="container">
             <div className="ad-section">
                 <ins className="kakao_ad_area" 
-                    style={{display: 'none'}}
+                    style={{display: 'block'}}
                     data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
                     data-ad-width="320"
                     data-ad-height="100">
@@ -291,7 +291,7 @@ function UploadPage() {
 
             <div className="ad-section">
                 <ins className="kakao_ad_area" 
-                    style={{display: 'none'}}
+                    style={{display: 'block'}}
                     data-ad-unit="DAN-Z0CXfVubRP0mNMgu"
                     data-ad-width="320"
                     data-ad-height="50">
@@ -374,7 +374,7 @@ function UploadPage() {
 
             <div className="ad-section">
                 <ins className="kakao_ad_area" 
-                    style={{display: 'none'}}
+                    style={{display: 'block'}}
                     data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
                     data-ad-width="320"
                     data-ad-height="100">
@@ -524,7 +524,7 @@ function ResultPage() {
         <div className="container">
             <div className="ad-section">
                 <ins className="kakao_ad_area" 
-                    style={{display: 'none'}}
+                    style={{display: 'block'}}
                     data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
                     data-ad-width="320"
                     data-ad-height="100">
@@ -616,7 +616,7 @@ function ResultPage() {
 
             <div className="ad-section">
                 <ins className="kakao_ad_area" 
-                    style={{display: 'none'}}
+                    style={{display: 'block'}}
                     data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
                     data-ad-width="320"
                     data-ad-height="100">
