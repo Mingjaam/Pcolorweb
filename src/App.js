@@ -16,6 +16,7 @@ import {
 import { Bar, Doughnut } from 'react-chartjs-2';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import KakaoAdFit from './components/KakaoAdFit';
 
 ChartJS.register(
   CategoryScale,
@@ -29,6 +30,8 @@ ChartJS.register(
   ArcElement,
   DoughnutController
 );
+
+
 
 function UploadPage() {
     const [image, setImage] = useState(null);
@@ -99,16 +102,11 @@ function UploadPage() {
     return (
         <div className="container">
             <div className="ad-section">
-                <ins className="kakao_ad_area" 
-                    style={{display: 'block'}}
-                    data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
-                    data-ad-width="320"
-                    data-ad-height="100">
-                </ins>
-                <script type="text/javascript" 
-                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
-                    async>
-                </script>
+                <KakaoAdFit 
+                    unit="DAN-Vc8hjg8RFxxUyYjP"
+                    width="320"
+                    height="100"
+                />
             </div>
 
             <section className="service-intro">
@@ -290,16 +288,11 @@ function UploadPage() {
             </section>
 
             <div className="ad-section">
-                <ins className="kakao_ad_area" 
-                    style={{display: 'block'}}
-                    data-ad-unit="DAN-Z0CXfVubRP0mNMgu"
-                    data-ad-width="320"
-                    data-ad-height="50">
-                </ins>
-                <script type="text/javascript" 
-                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
-                    async>
-                </script>
+                <KakaoAdFit 
+                    unit="DAN-Z0CXfVubRP0mNMgu"
+                    width="320"
+                    height="50"
+                />
             </div>
 
             <section className="analysis-explanation">
@@ -373,16 +366,11 @@ function UploadPage() {
             </div>
 
             <div className="ad-section">
-                <ins className="kakao_ad_area" 
-                    style={{display: 'block'}}
-                    data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
-                    data-ad-width="320"
-                    data-ad-height="100">
-                </ins>
-                <script type="text/javascript" 
-                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
-                    async>
-                </script>
+                <KakaoAdFit 
+                    unit="DAN-Vc8hjg8RFxxUyYjP"
+                    width="320"
+                    height="100"
+                />
             </div>
         </div>
     );
@@ -523,16 +511,11 @@ function ResultPage() {
     return (
         <div className="container">
             <div className="ad-section">
-                <ins className="kakao_ad_area" 
-                    style={{display: 'block'}}
-                    data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
-                    data-ad-width="320"
-                    data-ad-height="100">
-                </ins>
-                <script type="text/javascript" 
-                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
-                    async>
-                </script>
+                <KakaoAdFit 
+                    unit="DAN-Vc8hjg8RFxxUyYjP"
+                    width="320"
+                    height="100"
+                />
             </div>
 
             <h1>AI 퍼스널 컬러 분석 결과</h1>
@@ -615,16 +598,11 @@ function ResultPage() {
             </div>
 
             <div className="ad-section">
-                <ins className="kakao_ad_area" 
-                    style={{display: 'block'}}
-                    data-ad-unit="DAN-Vc8hjg8RFxxUyYjP"
-                    data-ad-width="320"
-                    data-ad-height="100">
-                </ins>
-                <script type="text/javascript" 
-                    src="//t1.daumcdn.net/kas/static/ba.min.js" 
-                    async>
-                </script>
+                <KakaoAdFit 
+                    unit="DAN-Vc8hjg8RFxxUyYjP"
+                    width="320"
+                    height="100"
+                />
             </div>
         </div>
     );
@@ -806,7 +784,7 @@ def extract_skin_color(image_path):
                     <ul>
                         <li>T존 (이마와 코 부위): 전체 높이의 60%, 중앙 40% 영역</li>
                         <li>U존 (양 볼 부위): 중간 높이의 40%, 전체 너비</li>
-                        <li>각 영역은 서로 다른 특성을 가지므로 개별 분석 후 가중 평균 계산</li>
+                        <li>각 ���역은 서로 다른 특성을 가지므로 개별 분석 후 가중 평균 계산</li>
                     </ul>
                 </div>
 
