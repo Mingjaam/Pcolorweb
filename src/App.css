@@ -1383,7 +1383,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 4px;
     margin-top: 5px;
 }
 
@@ -1391,12 +1391,13 @@ button {
     font-size: 0.8rem;
     color: #888;
     font-weight: normal;
+    text-align: center;
 }
 
 .copy-button {
     background: none;
     border: none;
-    padding: 4px;
+    padding: 2px;
     cursor: pointer;
     color: #888;
     display: flex;

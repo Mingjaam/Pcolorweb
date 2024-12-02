@@ -586,8 +586,8 @@ function ResultPage() {
                         <span className="website-link">pcolorweb.vercel.app</span>
                         <button onClick={handleCopy} className="copy-button">
                             <svg 
-                                width="16" 
-                                height="16" 
+                                width="12" 
+                                height="12" 
                                 viewBox="0 0 24 24" 
                                 fill="none" 
                                 stroke="currentColor" 
@@ -809,7 +809,7 @@ function InfoPage() {
                 
                 <h4>여름 쿨톤의 특징</h4>
                 <ul>
-                    <li>부드럽고 연한 톤</li>
+                    <li>부드럽고 연�� 톤</li>
                     <li>붉은빛이 도는 밝은 피부</li>
                     <li>시원하고 우아한 이미지</li>
                     <li>여름처럼 산뜻하고 세련된 이미지 연출</li>
