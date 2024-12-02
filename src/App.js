@@ -273,23 +273,29 @@ function UploadPage() {
                     )}
                 </div>
                 {!analysisResult ? (
-                    <button 
-                        className={`upload-button ${loading ? 'loading' : ''}`}
-                        onClick={handleUpload} 
-                        disabled={!image || loading}
-                    >
-                        {loading ? (
-                            <div className="loading-container">
-                                <span>이미지 분석 중입니다</span>
-                                <div className="loading-spinner"></div>
-                                <p className="loading-description">
-                                    {analysisMessage}
-                                </p>
-                            </div>
-                        ) : (
-                            <span>분석하기</span>
-                        )}
-                    </button>
+                    <>
+                        <button 
+                            className={`upload-button ${loading ? 'loading' : ''}`}
+                            onClick={handleUpload} 
+                            disabled={!image || loading}
+                        >
+                            {loading ? (
+                                <div className="loading-container">
+                                    <span>이미지 분석 중입니다</span>
+                                    <div className="loading-spinner"></div>
+                                    <p className="loading-description">
+                                        {analysisMessage}
+                                    </p>
+                                </div>
+                            ) : (
+                                <span>분석하기</span>
+                            )}
+                        </button>
+                        <p className="analysis-warning">
+                            분석에는 40초~1분 정도 소요됩니다.<br/>
+                            정확한 분석을 위해 페이지를 나가지 말고 기다려주세요.
+                        </p>
+                    </>
                 ) : (
                     <>
                         <section className="result-section">

@@ -1363,3 +1363,11 @@ button {
         font-size: 1.5rem;
     }
 }
+
+.analysis-warning {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    line-height: 1.4;
+}
