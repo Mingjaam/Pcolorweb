@@ -17,6 +17,7 @@ import { Bar, Doughnut } from 'react-chartjs-2';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import KakaoAdFit from './components/KakaoAdFit';
+import { Analytics } from '@vercel/analytics/react';
 
 ChartJS.register(
   CategoryScale,
@@ -809,7 +810,7 @@ function InfoPage() {
                 
                 <h4>여름 쿨톤의 특징</h4>
                 <ul>
-                    <li>부드럽고 연�� 톤</li>
+                    <li>부드럽고 연한 톤</li>
                     <li>붉은빛이 도는 밝은 피부</li>
                     <li>시원하고 우아한 이미지</li>
                     <li>여름처럼 산뜻하고 세련된 이미지 연출</li>
@@ -1004,6 +1005,7 @@ function App() {
                 <Route path="/info" element={<InfoPage />} />
                 <Route path="/codeinfo" element={<CodeInfo />} />
             </Routes>
+            <Analytics />
         </Router>
     );
 }
