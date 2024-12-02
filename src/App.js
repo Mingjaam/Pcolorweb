@@ -658,7 +658,13 @@ function ResultPage() {
 }
 
 function AppBar() {
+    const location = useLocation();
     const navigate = useNavigate();
+    
+    // 결과 페이지('/result')에서는 앱바를 숨김
+    if (location.pathname === '/result') {
+        return null;
+    }
     
     return (
         <div className="app-bar">
