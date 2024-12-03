@@ -187,11 +187,17 @@ function UploadPage() {
             <section className="service-intro">
                 <h1>AI 퍼스널 컬러 분석</h1>
                 <div className="disquiet-badge-container">
-                <iframe
-                    title='disquiet-badge'
-                    frameBorder="0"
-                    src='https://badge.disquiet.io/vote-badge?productUrlSlug=day-o-데이오&mode=light'
-                    style={{ width: '100%', maxWidth: '320px', height: '50px' }}
+                    <iframe
+                        title='disquiet-badge'
+                        frameBorder="0"
+                        src='https://badge.disquiet.io/vote-badge?productUrlSlug=day-o-데이오&mode=light'
+                        style={{ 
+                            width: '100%', 
+                            maxWidth: '320px', 
+                            height: '50px',  // 높이를 충분히 설정
+                            overflow: 'hidden',  // 스크롤 방지
+                            border: 'none'  // 테두리 제거
+                        }}
                     />
                 </div>
                 <p>
@@ -831,7 +837,7 @@ function InfoPage() {
                 <ul>
                     <li>
                         <strong>봄 웜톤</strong>
-                        <p>- 브라이트: 밝고 선명한 톤</p>
+                        <p>- 브라이트: 밝고 선명�� 톤</p>
                         <p>- 라이트: 밝고 부드러운 톤</p>
                     </li>
                     <li>
@@ -971,7 +977,7 @@ def create_skin_mask(img):
                     <ul>
                         <li>이미지를 8x8 타일로 분할하여 각 영역별 독립적인 히스토그램 평활화 수행</li>
                         <li>clipLimit=3.0으로 설정하여 과도한 대비 향상 방지</li>
-                        <li>조명의 영향을 최소화하면서 피부톤의 자연스러운 특성 보존</li>
+                        <li>조명의 ���향을 최소화하면서 피부톤의 자연스러운 특성 보존</li>
                     </ul>
 
                     <h4>Lab 색공간 변환</h4>

@@ -1459,6 +1459,8 @@ button {
 .disquiet-badge-container {
     display: flex;
     justify-content: center;
-    margin: 10px 0;
+    align-items: center;
+    margin: 15px 0;
     width: 100%;
+    min-height: 50px;  /* 최소 높이 설정 */
 }
