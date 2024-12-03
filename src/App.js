@@ -260,6 +260,13 @@ function UploadPage() {
             </section>
 
             <section className="upload-section">
+                <div className="ad-section">
+                    <KakaoAdFit 
+                        unit="DAN-Z0CXfVubRP0mNMgu"
+                                width="320"
+                                height="50"
+                    />
+                </div>
                 <div className={`upload-box ${image ? 'has-image' : ''}`}>
                     <label htmlFor="image-upload" className="upload-label">
                         <svg 
