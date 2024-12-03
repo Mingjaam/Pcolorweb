@@ -186,20 +186,6 @@ function UploadPage() {
 
             <section className="service-intro">
                 <h1>AI 퍼스널 컬러 분석</h1>
-                <div className="disquiet-badge-container">
-                    <iframe
-                        title='disquiet-badge'
-                        frameBorder="0"
-                        src='https://badge.disquiet.io/vote-badge?productUrlSlug=day-o-데이오&mode=light'
-                        style={{ 
-                            width: '100%', 
-                            maxWidth: '320px', 
-                            height: '50px',  // 높이를 충분히 설정
-                            overflow: 'hidden',  // 스크롤 방지
-                            border: 'none'  // 테두리 제거
-                        }}
-                    />
-                </div>
                 <p>
                     AI 이미지 분석 기술로 당신만의 퍼스널 컬러를 찾아보세요.<br/>
                     얼굴 사진 하나로 피부톤을 분석하고 어울리는 컬러를 추천해드립니다.
