@@ -1413,3 +1413,45 @@ button {
 .copy-button:active {
     transform: scale(0.95);
 }
+
+.app-layout {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.main-content {
+    flex: 1;
+    max-width: 1000px;
+    min-width: 320px;
+    margin: 0 20px;
+}
+
+.side-banner {
+    width: 160px;
+    height: 600px;
+    position: sticky;
+    top: 20px;
+    display: none; /* 기본적으로 숨김 */
+}
+
+/* 화면이 넓을 때만 배너 표시 */
+@media (min-width: 1340px) {
+    .side-banner {
+        display: block;
+    }
+}
+
+/* 더 넓은 화면에서 왼쪽 배너 위치 조정 */
+@media (min-width: 1500px) {
+    .side-banner.left {
+        margin-right: 20px;
+    }
+    
+    .side-banner.right {
+        margin-left: 20px;
+    }
+}

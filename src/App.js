@@ -1042,14 +1042,37 @@ if warmth > warmth_threshold['neutral']:  # 웜톤
 function App() {
     return (
         <Router>
-            <AppBar />
-            <Routes>
-                <Route path="/" element={<UploadPage />} />
-                <Route path="/result" element={<ResultPage />} />
-                <Route path="/info" element={<InfoPage />} />
-                <Route path="/codeinfo" element={<CodeInfo />} />
-            </Routes>
-            <Analytics />
+            <div className="app-layout">
+                {/* 왼쪽 세로 배너 */}
+                <div className="side-banner left">
+                    <KakaoAdFit 
+                        unit="DAN-oYSnbucRXjpIXYae"
+                        width="160"
+                        height="600"
+                    />
+                </div>
+
+                {/* 메인 콘텐츠 */}
+                <div className="main-content">
+                    <AppBar />
+                    <Routes>
+                        <Route path="/" element={<UploadPage />} />
+                        <Route path="/result" element={<ResultPage />} />
+                        <Route path="/info" element={<InfoPage />} />
+                        <Route path="/codeinfo" element={<CodeInfo />} />
+                    </Routes>
+                    <Analytics />
+                </div>
+
+                {/* 오른쪽 세로 배너 */}
+                <div className="side-banner right">
+                    <KakaoAdFit 
+                        unit="DAN-oYSnbucRXjpIXYae"
+                        width="160"
+                        height="600"
+                    />
+                </div>
+            </div>
         </Router>
     );
 }
