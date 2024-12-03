@@ -319,6 +319,13 @@ function UploadPage() {
                             분석에는 40초~1분 정도 소요됩니다.<br/>
                             정확한 분석을 위해 페이지를 나가지 말고 기다려주세요.
                         </p>
+                        <div className="ad-section">
+                            <KakaoAdFit 
+                                unit="DAN-Z0CXfVubRP0mNMgu"
+                                width="320"
+                                height="50"
+                            />
+                        </div>
                     </>
                 ) : (
                     <>
@@ -360,6 +367,13 @@ function UploadPage() {
                         >
                             결과 상세보기
                         </button>
+                        <div className="ad-section">
+                            <KakaoAdFit 
+                                unit="DAN-Z0CXfVubRP0mNMgu"
+                                width="320"
+                                height="50"
+                            />
+                        </div>
                     </>
                 )}
             </section>
@@ -697,14 +711,13 @@ function ResultPage() {
                         개발자 인스타그램
                     </a>
                 </div>
-            </div>
-
-            <div className="ad-section">
+                <div className="ad-section">
                 <KakaoAdFit 
-                    unit="DAN-Vc8hjg8RFxxUyYjP"
+                    unit="DAN-Z0CXfVubRP0mNMgu"
                     width="320"
-                    height="100"
-                />
+                    height="50"
+                    />
+                </div>
             </div>
         </div>
     );
