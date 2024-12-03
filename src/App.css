@@ -1455,3 +1455,10 @@ button {
         margin-left: 20px;
     }
 }
+
+.disquiet-badge-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    width: 100%;
+}

@@ -182,6 +182,15 @@ function UploadPage() {
                 />
             </div>
 
+            <div className="disquiet-badge-container">
+                <iframe
+                    title='disquiet-badge'
+                    frameBorder="0"
+                    src='https://badge.disquiet.io/vote-badge?productUrlSlug=day-o-데이오&mode=light'
+                    style={{ width: '100%', maxWidth: '320px', height: '50px' }}
+                />
+            </div>
+
             <section className="service-intro">
                 <h1>AI 퍼스널 컬러 분석</h1>
                 <p>
