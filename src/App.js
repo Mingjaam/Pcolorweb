@@ -173,14 +173,7 @@ function UploadPage() {
 
     return (
         <div className="container">
-            <div className="side-banner left">
-                <KakaoAdFit 
-                    unit="DAN-oYSnbucRXjpIXYae"
-                    width="160"
-                    height="600"
-                />
-            </div>
-
+            
             <div className="ad-section">
                 <KakaoAdFit 
                     unit="DAN-Vc8hjg8RFxxUyYjP"
@@ -477,13 +470,6 @@ function UploadPage() {
                     width="320"
                     height="100"
                 />
-                <div className="side-banner right">
-                    <KakaoAdFit 
-                        unit="DAN-oYSnbucRXjpIXYae"
-                        width="160"
-                        height="600"
-                    />
-                </div>
             </div>
         </div>
     );
